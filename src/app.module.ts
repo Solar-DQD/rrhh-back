@@ -8,6 +8,13 @@ import { JwtStrategy } from './common/strategies/jwt.strategy';
 import { TurnoModule } from './modules/turno/turno.module';
 import { TipoUsuarioModule } from './modules/tipousuario/tipousuario.module';
 import { TipoJornadaModule } from './modules/tipojornada/tipojornada.module';
+import { TipoImportacionModule } from './modules/tipoimportacion/tipoimportacion.module';
+import { TipoEmpleadoModule } from './modules/tipoempleado/tipoempleado.module';
+import { TipoAusenciaModule } from './modules/tipoausencia/tipoausencia.module';
+import { EstadoParametroModule } from './modules/estadoparametro/estadoparametro.module';
+import { QuincenaModule } from './modules/quincena/quincena.module';
+import { MesModule } from './modules/mes/mes.module';
+import { AñoModule } from './modules/año/año.module';
 
 @Module({
   imports: [
@@ -47,7 +54,14 @@ import { TipoJornadaModule } from './modules/tipojornada/tipojornada.module';
     //modules
     TurnoModule,
     TipoUsuarioModule,
-    TipoJornadaModule
+    TipoJornadaModule,
+    TipoImportacionModule,
+    TipoEmpleadoModule,
+    TipoAusenciaModule,
+    EstadoParametroModule,
+    QuincenaModule,
+    MesModule,
+    AñoModule
 
   ],
   providers: [
