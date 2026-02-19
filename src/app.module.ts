@@ -15,14 +15,20 @@ import { EstadoParametroModule } from './modules/estadoparametro/estadoparametro
 import { QuincenaModule } from './modules/quincena/quincena.module';
 import { MesModule } from './modules/mes/mes.module';
 import { AñoModule } from './modules/año/año.module';
+import { ProyectoModule } from './modules/proyecto/proyecto.module';
+import { ModalidadTrabajoModule } from './modules/modalidadtrabajo/modalidadtrabajo.module';
+import { ObservacionModule } from './modules/observacion/observacion.module';
+import { FuenteMarcaModule } from './modules/fuentemarca/fuentemarca.module';
 
 @Module({
   imports: [
+    //.env
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: '.env'
     }),
 
+    //database
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
@@ -39,6 +45,7 @@ import { AñoModule } from './modules/año/año.module';
       })
     }),
 
+    //auth
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.registerAsync({
       imports: [ConfigModule],
@@ -61,7 +68,11 @@ import { AñoModule } from './modules/año/año.module';
     EstadoParametroModule,
     QuincenaModule,
     MesModule,
-    AñoModule
+    AñoModule,
+    ProyectoModule,
+    ModalidadTrabajoModule,
+    ObservacionModule,
+    FuenteMarcaModule
 
   ],
   providers: [

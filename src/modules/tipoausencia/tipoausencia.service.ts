@@ -110,7 +110,7 @@ export class TipoAusenciaService {
         );
 
         if (result.affected === 0) {
-            throw new NotFoundException(`TipoAusencia with id ${params.id} not found or cannot be deactivated`)
+            throw new NotFoundException(`TipoAusencia with id ${params.id} not found or cannot be deactivated`);
         };
 
         this.cache = null;
@@ -129,7 +129,7 @@ export class TipoAusenciaService {
         });
 
         if (existing) {
-            throw new ConflictException(`TipoAusencia "${params.nombre}" already exists`)
+            throw new ConflictException(`TipoAusencia "${params.nombre}" already exists`);
         };
 
         const result = await this.tipoAusenciaRepository.update(
@@ -144,7 +144,7 @@ export class TipoAusenciaService {
         );
 
         if (result.affected === 0) {
-            throw new NotFoundException(`TipoAusencia with id ${params.id} not found or cannot be edited`)
+            throw new NotFoundException(`TipoAusencia with id ${params.id} not found or cannot be edited`);
         };
 
         this.cache = null;
@@ -162,7 +162,7 @@ export class TipoAusenciaService {
         });
 
         if (existing) {
-            throw new ConflictException(`TipoAusencia "${params.nombre}" already exists`)
+            throw new ConflictException(`TipoAusencia "${params.nombre}" already exists`);
         };
 
         id_estadoparametro = await this.estadoParametroService.getEstadoParametroActivo();

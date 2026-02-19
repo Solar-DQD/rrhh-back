@@ -1,9 +1,12 @@
-import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, ParseIntPipe, Patch, Post, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, ParseIntPipe, Patch, Post, Query, UseGuards } from '@nestjs/common';
 import { TipoAusenciaService } from './tipoausencia.service';
 import { GetTiposAusenciaPaginatedDto } from './dto/get-tiposausencia-paginated.dto';
-import { CreateTipoAusenciaDto, EditTipoAusenciaBodyDto } from './dto/create-tipoausencia.dto';
+import { CreateTipoAusenciaDto } from './dto/create-tipoausencia.dto';
+import { EditTipoAusenciaBodyDto } from './dto/edit-tipoausencia.dto';
+import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard';
 
 @Controller('tipoausencia')
+@UseGuards(JwtAuthGuard)
 export class TipoAusenciaController {
   constructor(private readonly tipoAusenciaService: TipoAusenciaService) { }
 
@@ -19,8 +22,8 @@ export class TipoAusenciaController {
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
-  async createTipoAusencia(@Body() dto: CreateTipoAusenciaDto) {
-    await this.tipoAusenciaService.createTipoAusencia(dto);
+  async createTipoAusencia(@Body() body: CreateTipoAusenciaDto) {
+    await this.tipoAusenciaService.createTipoAusencia(body);
     return { message: 'TipoAusencia created' }
   };
 
