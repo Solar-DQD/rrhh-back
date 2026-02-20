@@ -24,7 +24,7 @@ export class TipoAusenciaController {
   @HttpCode(HttpStatus.CREATED)
   async createTipoAusencia(@Body() body: CreateTipoAusenciaDto) {
     await this.tipoAusenciaService.createTipoAusencia(body);
-    return { message: 'TipoAusencia created' }
+    return { message: 'TipoAusencia created' };
   };
 
   @Patch(':id')
@@ -33,7 +33,7 @@ export class TipoAusenciaController {
     @Body() body: EditTipoAusenciaBodyDto,
   ) {
     await this.tipoAusenciaService.editTipoAusencia({ id, ...body });
-    return { message: 'TipoAusencia edited' }
+    return { message: 'TipoAusencia edited' };
   };
 
   @Delete(':id')
@@ -41,6 +41,6 @@ export class TipoAusenciaController {
     @Param('id', ParseIntPipe) id: number
   ) {
     await this.tipoAusenciaService.deactivateTipoAusencia({ id });
-    return { message: 'TipoAusencia deactivated' }
+    return { message: 'TipoAusencia deactivated' };
   };
 };

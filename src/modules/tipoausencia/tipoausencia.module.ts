@@ -3,10 +3,12 @@ import { TipoAusenciaService } from './tipoausencia.service';
 import { TipoAusenciaController } from './tipoausencia.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TipoAusencia } from './entities/tipoausencia.entity';
+import { EstadoParametroModule } from '../estadoparametro/estadoparametro.module';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([TipoAusencia])
+    TypeOrmModule.forFeature([TipoAusencia]),
+    EstadoParametroModule
   ],
   controllers: [TipoAusenciaController],
   providers: [TipoAusenciaService],

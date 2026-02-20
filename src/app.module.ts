@@ -19,6 +19,13 @@ import { ProyectoModule } from './modules/proyecto/proyecto.module';
 import { ModalidadTrabajoModule } from './modules/modalidadtrabajo/modalidadtrabajo.module';
 import { ObservacionModule } from './modules/observacion/observacion.module';
 import { FuenteMarcaModule } from './modules/fuentemarca/fuentemarca.module';
+import { EstadoUsuarioModule } from './modules/estadousuario/estadousuario.module';
+import { EstadoJornadaModule } from './modules/estadojornada/estadojornada.module';
+import { EstadoImportacionModule } from './modules/estadoimportacion/estadoimportacion.module';
+import { EstadoEmpleadoModule } from './modules/estadoempleado/estadoempleado.module';
+import { ControlModule } from './modules/control/control.module';
+import { AusenciaModule } from './modules/ausencia/ausencia.module';
+import { ImportacionModule } from './modules/importacion/importacion.module';
 
 @Module({
   imports: [
@@ -72,7 +79,14 @@ import { FuenteMarcaModule } from './modules/fuentemarca/fuentemarca.module';
     ProyectoModule,
     ModalidadTrabajoModule,
     ObservacionModule,
-    FuenteMarcaModule
+    FuenteMarcaModule,
+    EstadoUsuarioModule,
+    EstadoJornadaModule,
+    EstadoImportacionModule,
+    EstadoEmpleadoModule,
+    ControlModule,
+    AusenciaModule,
+    ImportacionModule
 
   ],
   providers: [

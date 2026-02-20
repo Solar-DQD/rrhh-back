@@ -27,17 +27,17 @@ export class EstadoParametroService {
             estadoParametro = await this.estadoParametroRepository.save(estadoParametro);
         };
 
-        this.idCache.set(nombre, estadoParametro.id)
+        this.idCache.set(nombre, estadoParametro.id);
 
         return estadoParametro.id;
     };
 
-    //Get estado parametro activo
+    //Get estadoParametro activo
     async getEstadoParametroActivo(): Promise<number> {
         return this.getOrCreateEstadoParametro('Activo');
     };
 
-    //Get estado parametro baja
+    //Get estadoParametro baja
     async getEstadoParametroBaja(): Promise<number> {
         return this.getOrCreateEstadoParametro('Baja');
     };
