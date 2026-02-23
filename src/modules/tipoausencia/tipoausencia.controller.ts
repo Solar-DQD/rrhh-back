@@ -12,7 +12,7 @@ export class TipoAusenciaController {
 
   @Get()
   async getTiposAusencia() {
-    return await this.tipoAusenciaService.getTiposAusencia();
+    return this.tipoAusenciaService.getTiposAusencia();
   };
 
   @Get('paginated')

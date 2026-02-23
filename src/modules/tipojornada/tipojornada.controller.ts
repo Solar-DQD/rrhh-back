@@ -9,6 +9,6 @@ export class TipoJornadaController {
 
   @Get()
   async getTiposJornada() {
-    return await this.tipoJornadaService.getTiposJornada();
+    return this.tipoJornadaService.getTiposJornada();
   };
 };

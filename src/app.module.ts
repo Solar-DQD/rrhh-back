@@ -26,6 +26,7 @@ import { EstadoEmpleadoModule } from './modules/estadoempleado/estadoempleado.mo
 import { ControlModule } from './modules/control/control.module';
 import { AusenciaModule } from './modules/ausencia/ausencia.module';
 import { ImportacionModule } from './modules/importacion/importacion.module';
+import { UsuarioModule } from './modules/usuario/usuario.module';
 
 @Module({
   imports: [
@@ -86,7 +87,8 @@ import { ImportacionModule } from './modules/importacion/importacion.module';
     EstadoEmpleadoModule,
     ControlModule,
     AusenciaModule,
-    ImportacionModule
+    ImportacionModule,
+    UsuarioModule
 
   ],
   providers: [

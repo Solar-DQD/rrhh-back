@@ -1,9 +1,9 @@
-import { IsString, IsNotEmpty, MinLength, MaxLength, IsNumber, IsPositive } from 'class-validator';
+import { IsString, IsNotEmpty, MaxLength, IsNumber, IsPositive } from 'class-validator';
 
 export class CreateObservacionDto {
     @IsString()
     @IsNotEmpty()
-    @MinLength(2)
+    
     @MaxLength(100)
     texto: string;
 

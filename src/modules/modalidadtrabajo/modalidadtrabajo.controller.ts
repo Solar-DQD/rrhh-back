@@ -9,6 +9,6 @@ export class ModalidadTrabajoController {
 
   @Get()
   async getModalidadesTrabajo() {
-    return await this.modalidadTrabajoService.getModalidadesTrabajo();
+    return this.modalidadTrabajoService.getModalidadesTrabajo();
   };
 };

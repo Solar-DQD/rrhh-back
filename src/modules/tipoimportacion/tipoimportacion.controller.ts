@@ -9,6 +9,6 @@ export class TipoImportacionController {
 
   @Get()
   async getTiposImportacion() {
-    return await this.tipoImportacionService.getTiposImportacion();
+    return this.tipoImportacionService.getTiposImportacion();
   };
 };

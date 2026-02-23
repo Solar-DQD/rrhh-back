@@ -1,4 +1,4 @@
-import { IsNumber, IsPositive, IsString, IsNotEmpty, MinLength, MaxLength } from 'class-validator';
+import { IsNumber, IsPositive, IsString, IsNotEmpty, MaxLength } from 'class-validator';
 
 export class EditTipoAusenciaDto {
     @IsNumber()
@@ -7,7 +7,7 @@ export class EditTipoAusenciaDto {
 
     @IsString()
     @IsNotEmpty()
-    @MinLength(2)
+    
     @MaxLength(100)
     nombre: string;
 };
@@ -15,7 +15,7 @@ export class EditTipoAusenciaDto {
 export class EditTipoAusenciaBodyDto {
     @IsString()
     @IsNotEmpty()
-    @MinLength(2)
+    
     @MaxLength(100)
     nombre: string;
 };

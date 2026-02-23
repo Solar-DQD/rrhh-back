@@ -9,6 +9,6 @@ export class TurnoController {
 
   @Get()
   async getTurnos() {
-    return await this.turnoService.getTurnos();
+    return this.turnoService.getTurnos();
   };
 };

@@ -9,6 +9,6 @@ export class TipoEmpleadoController {
 
   @Get()
   async getTiposEmpleado() {
-    return await this.tipoEmpleadoService.getTiposEmpleado();
+    return this.tipoEmpleadoService.getTiposEmpleado();
   };
 };

@@ -9,11 +9,11 @@ export class TipoUsuarioController {
 
   @Get()
   async getTiposUsuario() {
-    return await this.tipoUsuarioService.getTiposUsuario();
+    return this.tipoUsuarioService.getTiposUsuario();
   };
 
   @Get(':id')
   async getTipoUsuarioPorId(@Param('id', ParseIntPipe) id: number) {
-    return await this.tipoUsuarioService.getTipoUsuarioPorId({ id });
+    return this.tipoUsuarioService.getTipoUsuarioPorId({ id });
   }; 
 };

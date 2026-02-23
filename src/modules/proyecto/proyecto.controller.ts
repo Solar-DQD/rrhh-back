@@ -12,7 +12,7 @@ export class ProyectoController {
 
   @Get()
   async getProyectos() {
-    return await this.proyectoService.getProyectos();
+    return this.proyectoService.getProyectos();
   };
 
   @Get('paginated')
@@ -24,7 +24,7 @@ export class ProyectoController {
   @HttpCode(HttpStatus.CREATED)
   async createProyecto(@Body() body: CreateProyectoDto) {
     await this.proyectoService.createProyecto(body);
-    return { message: 'Proyecto created' }
+    return { message: 'Proyecto created' };
   };
 
   @Patch(':id')

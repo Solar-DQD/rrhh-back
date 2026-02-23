@@ -1,41 +1,37 @@
 import { IsNotEmpty, IsNumber, IsPositive, IsString, MaxLength } from "class-validator";
 
-export class EditProyectoDto {
+export class EditUsuarioDto {
     @IsNumber()
     @IsPositive()
     id: number;
 
     @IsString()
     @IsNotEmpty()
-    
     @MaxLength(100)
     nombre: string;
-    
+
     @IsString()
     @IsNotEmpty()
-    
     @MaxLength(100)
-    nomina: string;
+    correo: string;
 
     @IsNumber()
     @IsPositive()
-    id_modalidadtrabajo: number;
-}
+    id_tipousuario: number;
+};
 
-export class EditProyectoBodyDto {
+export class EditUsuarioBodyDto {
     @IsString()
     @IsNotEmpty()
-    
     @MaxLength(100)
     nombre: string;
-    
+
     @IsString()
     @IsNotEmpty()
-    
     @MaxLength(100)
-    nomina: string;
+    correo: string;
 
     @IsNumber()
     @IsPositive()
-    id_modalidadtrabajo: number;
-}
+    id_tipousuario: number;
+};

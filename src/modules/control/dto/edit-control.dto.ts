@@ -1,4 +1,4 @@
-import { IsNumber, IsPositive, IsString, IsNotEmpty, MinLength, MaxLength } from 'class-validator';
+import { IsNumber, IsPositive, IsString, IsNotEmpty, MaxLength } from 'class-validator';
 
 export class EditControlDto {
     @IsNumber()
@@ -7,7 +7,6 @@ export class EditControlDto {
 
     @IsString()
     @IsNotEmpty()
-    @MinLength(2)
     @MaxLength(100)
     serie: string;
 
@@ -19,7 +18,7 @@ export class EditControlDto {
 export class EditControlBodyDto {
     @IsString()
     @IsNotEmpty()
-    @MinLength(2)
+    
     @MaxLength(100)
     serie: string;
 
