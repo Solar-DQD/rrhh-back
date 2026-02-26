@@ -5,28 +5,33 @@ import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { JwtStrategy } from './common/strategies/jwt.strategy';
 //modules
-import { TurnoModule } from './modules/turno/turno.module';
-import { TipoUsuarioModule } from './modules/tipousuario/tipousuario.module';
-import { TipoJornadaModule } from './modules/tipojornada/tipojornada.module';
-import { TipoImportacionModule } from './modules/tipoimportacion/tipoimportacion.module';
-import { TipoEmpleadoModule } from './modules/tipoempleado/tipoempleado.module';
-import { TipoAusenciaModule } from './modules/tipoausencia/tipoausencia.module';
-import { EstadoParametroModule } from './modules/estadoparametro/estadoparametro.module';
-import { QuincenaModule } from './modules/quincena/quincena.module';
-import { MesModule } from './modules/mes/mes.module';
-import { AñoModule } from './modules/año/año.module';
-import { ProyectoModule } from './modules/proyecto/proyecto.module';
-import { ModalidadTrabajoModule } from './modules/modalidadtrabajo/modalidadtrabajo.module';
-import { ObservacionModule } from './modules/observacion/observacion.module';
-import { FuenteMarcaModule } from './modules/fuentemarca/fuentemarca.module';
-import { EstadoUsuarioModule } from './modules/estadousuario/estadousuario.module';
-import { EstadoJornadaModule } from './modules/estadojornada/estadojornada.module';
-import { EstadoImportacionModule } from './modules/estadoimportacion/estadoimportacion.module';
-import { EstadoEmpleadoModule } from './modules/estadoempleado/estadoempleado.module';
-import { ControlModule } from './modules/control/control.module';
-import { AusenciaModule } from './modules/ausencia/ausencia.module';
-import { ImportacionModule } from './modules/importacion/importacion.module';
-import { UsuarioModule } from './modules/usuario/usuario.module';
+import { ModalidadValidacionModule } from './modules/core/modalidadvalidacion/modalidadvalidacion.module';
+import { TipoUsuarioModule } from './modules/core/tipousuario/tipousuario.module';
+import { TipoJornadaModule } from './modules/core/tipojornada/tipojornada.module';
+import { TipoImportacionModule } from './modules/core/tipoimportacion/tipoimportacion.module';
+import { TipoEmpleadoModule } from './modules/core/tipoempleado/tipoempleado.module';
+import { TipoAusenciaModule } from './modules/core/tipoausencia/tipoausencia.module';
+import { EstadoParametroModule } from './modules/core/estadoparametro/estadoparametro.module';
+import { QuincenaModule } from './modules/core/quincena/quincena.module';
+import { MesModule } from './modules/core/mes/mes.module';
+import { AñoModule } from './modules/core/año/año.module';
+import { ProyectoModule } from './modules/core/proyecto/proyecto.module';
+import { ModalidadTrabajoModule } from './modules/core/modalidadtrabajo/modalidadtrabajo.module';
+import { ObservacionModule } from './modules/core/observacion/observacion.module';
+import { FuenteMarcaModule } from './modules/core/fuentemarca/fuentemarca.module';
+import { EstadoUsuarioModule } from './modules/core/estadousuario/estadousuario.module';
+import { EstadoJornadaModule } from './modules/core/estadojornada/estadojornada.module';
+import { EstadoImportacionModule } from './modules/core/estadoimportacion/estadoimportacion.module';
+import { EstadoEmpleadoModule } from './modules/core/estadoempleado/estadoempleado.module';
+import { ControlModule } from './modules/core/control/control.module';
+import { AusenciaModule } from './modules/core/ausencia/ausencia.module';
+import { ImportacionModule } from './modules/core/importacion/importacion.module';
+import { UsuarioModule } from './modules/core/usuario/usuario.module';
+import { EmpleadoModule } from './modules/core/empleado/empleado.module';
+import { NominaModule } from './modules/mssql/nomina/nomina.module';
+import { SyncEmpleadosModule } from './modules/features/syncempleados/syncempleados.module';
+import { RegistrosAccesoModule } from './modules/mssql/registros_acceso/registros_acceso.module';
+import { AsistenciaModule } from './modules/features/asistencia/asistencia.module';
 
 @Module({
   imports: [
@@ -38,6 +43,7 @@ import { UsuarioModule } from './modules/usuario/usuario.module';
 
     //database
     TypeOrmModule.forRootAsync({
+      name: 'default',
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
@@ -47,9 +53,29 @@ import { UsuarioModule } from './modules/usuario/usuario.module';
         username: configService.get('PSQL_DB_USERNAME'),
         password: configService.get('PSQL_DB_PASSWORD'),
         database: configService.get('PSQL_DB_DATABASE'),
-        entities: [__dirname + '/**/*.entity{.ts,.js}'],
+        entities: [__dirname + '/modules/core/**/*.entity{.ts,.js}'],
         synchronize: false,
         logging: configService.get('NODE_ENV') === 'development',
+      })
+    }),
+    TypeOrmModule.forRootAsync({
+      name: 'sqlserver',
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => ({
+        type: 'mssql',
+        host: configService.get('MSSQL_DB_HOST'),
+        port: configService.get('MSSQL_DB_PORT'),
+        username: configService.get('MSSQL_DB_USERNAME'),
+        password: configService.get('MSSQL_DB_PASSWORD'),
+        database: configService.get('MSSQL_DB_DATABASE'),
+        entities: [__dirname + '/modules/mssql/**/*.entity{.ts,.js}'],
+        synchronize: false,
+        logging: configService.get('NODE_ENV') === 'development',
+        options: {
+          encrypt: true,
+          trustServerCertificate: true,
+        },
       })
     }),
 
@@ -67,7 +93,7 @@ import { UsuarioModule } from './modules/usuario/usuario.module';
     }),
 
     //modules
-    TurnoModule,
+    ModalidadValidacionModule,
     TipoUsuarioModule,
     TipoJornadaModule,
     TipoImportacionModule,
@@ -88,11 +114,16 @@ import { UsuarioModule } from './modules/usuario/usuario.module';
     ControlModule,
     AusenciaModule,
     ImportacionModule,
-    UsuarioModule
+    UsuarioModule,
+    EmpleadoModule,
+    NominaModule,
+    SyncEmpleadosModule,
+    RegistrosAccesoModule,
+    AsistenciaModule
 
   ],
   providers: [
     JwtStrategy
   ],
 })
-export class AppModule {}
+export class AppModule { }
