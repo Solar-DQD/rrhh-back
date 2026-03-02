@@ -1,9 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Observacion } from './entities/observacion.entity';
 import { Repository } from 'typeorm';
 import { CreateObservacionDto } from './dto/create-observacion.dto';
 import { GetObservacionesByEmpleadoDto, ObservacionesByEmpleadoResponseDto } from './dto/get-observacion-empleado.dto';
+import { DeleteObservacionDto } from './dto/delete-observacion.dto';
 
 @Injectable()
 export class ObservacionService {
@@ -27,7 +28,7 @@ export class ObservacionService {
             .where('j.id_empleado = :id_empleado', { id_empleado: params.id_empleado })
             .take(params.limit)
             .skip(params.page * params.limit);
-        
+
         if (params.mes !== 0) {
             query.andWhere('j.id_mes = :mes', { mes: params.mes });
         };
@@ -46,6 +47,15 @@ export class ObservacionService {
                 fecha: observacion.jornada?.fecha
             })),
             totalObservaciones
+        };
+    };
+
+    //Delete observacion
+    async deleteObservacion(params: DeleteObservacionDto): Promise<void> {
+        const result = await this.observacionRepository.delete({ id: params.id });
+
+        if (result.affected === 0) {
+            throw new NotFoundException(`Observacion with id ${params.id} not found`)
         };
     };
 };

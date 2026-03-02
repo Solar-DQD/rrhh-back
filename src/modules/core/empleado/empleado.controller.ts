@@ -6,13 +6,17 @@ import { CreateEmpleadoDto } from './dto/create-empleado.dto';
 import { EditEmpleadoBodyDto } from './dto/edit-empleado.dto';
 import { GetObservacionesByEmpleadoBodyDto } from '../observacion/dto/get-observacion-empleado.dto';
 import { ObservacionService } from '../observacion/observacion.service';
+import { JornadaService } from '../jornada/jornada.service';
+import { GetJornadasByEmpleadoQueryDto } from '../jornada/dto/get-jornada-empleado.dto';
+import { GetResumenByEmpleadoQueryDto } from '../jornada/dto/get-resumen-empleado.dto';
 
 @Controller('empleado')
 @UseGuards(JwtAuthGuard)
 export class EmpleadoController {
   constructor(
     private readonly empleadoService: EmpleadoService,
-    private readonly observacionService: ObservacionService
+    private readonly observacionService: ObservacionService,
+    private readonly jornadaService: JornadaService
   ) {}
 
   @Get()
@@ -52,6 +56,19 @@ export class EmpleadoController {
     return this.observacionService.getObservacionesByEmpleado({ id_empleado: id, ...query });
   };
 
-  //PENDING
-  //endpoint de jornadas
+  @Get(':id/jornada')
+  async getJornadasByEmpleado(
+    @Param('id', ParseIntPipe) id: number,
+    @Query() query: GetJornadasByEmpleadoQueryDto
+  ) {
+    return this.jornadaService.getJornadasByEmpleado({ id_empleado: id, ...query});
+  };
+
+  @Get(':id/resumen')
+  async getResumenByEmpleado(
+    @Param('id', ParseIntPipe) id: number,
+    @Query() query : GetResumenByEmpleadoQueryDto
+  ) {
+    return this.jornadaService.getResumenByEmpleado({ id_empleado: id, ...query });
+  };
 };

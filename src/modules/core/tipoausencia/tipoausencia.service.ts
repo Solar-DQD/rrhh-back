@@ -37,7 +37,7 @@ export class TipoAusenciaService {
     private async getOrCreateTipoAusencia(nombre: string): Promise<number> {
         const cached = this.idCache.get(nombre);
 
-        if (cached) return cached;
+        if (cached !== undefined) return cached;
 
         let tipoAusencia = await this.tipoAusenciaRepository.findOne({
             select: { id: true, nombre: true },

@@ -7,6 +7,7 @@ import { GetMesByMesAndAñoDto } from './dto/get-mes-mes-año.dto';
 @Injectable()
 export class MesService {
     private cache: Mes[] | null = null;
+    private cacheByMesAndAño: Map<string, number> = new Map();
 
     constructor(
         @InjectRepository(Mes)
@@ -29,6 +30,11 @@ export class MesService {
 
     //Get mes by mes and año
     async getMesByMesAndAño(params: GetMesByMesAndAñoDto): Promise<number> {
+        const key = `${params.id_año}-${params.mes}`;
+        const cached = this.cacheByMesAndAño.get(key);
+
+        if (cached !== undefined) return cached;
+
         let mes = await this.mesRepository.findOne({
             select: { id: true },
             where: { mes: params.mes, id_año: params.id_año }
@@ -40,6 +46,8 @@ export class MesService {
 
             this.cache = null;
         };
+
+        this.cacheByMesAndAño.set(key, mes.id);
 
         return mes.id;
     };

@@ -1,9 +1,10 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Ausencia } from './entities/ausencia.entity';
+import { Ausencia } from './ausencia.entity';
 import { Repository } from 'typeorm';
-import { CreateAusenciaDto } from './dto/create-ausencia.dto';
-import { EditAusenciaDto } from './dto/edit-ausencia.dto';
+import { CreateAusenciaDto } from '../dto/create-ausencia.dto';
+import { EditAusenciaDto } from '../dto/edit-ausencia.dto';
+import { DeleteAusenciaDto } from '../dto/delete-ausencia.dto';
 
 @Injectable()
 export class AusenciaService {
@@ -33,6 +34,15 @@ export class AusenciaService {
 
         if (result.affected === 0) {
             throw new NotFoundException(`Ausencia with id ${params.id} not found or cannot be edited`);
+        };
+    };
+
+    //Delete asuencia
+    async deleteAusencia(params: DeleteAusenciaDto): Promise<void> {
+        const result = await this.ausenciaRepository.delete({ id: params.id });
+
+        if (result.affected === 0) {
+            throw new NotFoundException(`Ausencia with id ${params.id} not found`);
         };
     };
 };

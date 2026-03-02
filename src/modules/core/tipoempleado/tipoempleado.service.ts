@@ -30,7 +30,7 @@ export class TipoEmpleadoService {
     private async getOrCreateTipoEmpleado(nombre: string): Promise<number> {
         const cached = this.idCache.get(nombre);
 
-        if (cached) return cached;
+        if (cached !== undefined) return cached;
 
         let tipoEmpleado = await this.tipoEmpleadoRepository.findOne({
             where: { nombre: nombre }

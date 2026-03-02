@@ -1,3 +1,4 @@
+import { Type } from "class-transformer";
 import { IsNotEmpty, IsNumber, IsPositive, IsString, MaxLength } from "class-validator";
 
 export class CreateUsuarioDto {
@@ -16,6 +17,7 @@ export class CreateUsuarioDto {
     @MaxLength(100)
     contraseña: string;
 
+    @Type(() => Number)
     @IsNumber()
     @IsPositive()
     id_tipousuario: number;

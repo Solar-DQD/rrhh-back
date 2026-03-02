@@ -1,13 +1,12 @@
-import { IsString, IsNotEmpty, MaxLength, IsNumber, IsPositive } from 'class-validator';
+import { IsNotEmpty, IsString } from "class-validator";
 
 export class CreateObservacionDto {
+    texto: string;
+    id_jornada: number;
+};
+
+export class CreateObservacionBodyDto {
     @IsString()
     @IsNotEmpty()
-    
-    @MaxLength(100)
     texto: string;
-
-    @IsNumber()
-    @IsPositive()
-    id_jornada: number;
 };

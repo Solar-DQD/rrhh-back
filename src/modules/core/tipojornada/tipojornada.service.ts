@@ -30,7 +30,7 @@ export class TipoJornadaService {
     private async getOrCreateTipoJornada(nombre: string): Promise<number> {
         const cached = this.idCache.get(nombre);
 
-        if (cached) return cached;
+        if (cached !== undefined) return cached;
 
         let tipoJornada = await this.tipoJornadaRepository.findOne({
             where: { nombre: nombre }

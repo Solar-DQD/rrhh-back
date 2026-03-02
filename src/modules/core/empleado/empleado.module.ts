@@ -7,6 +7,7 @@ import { TipoEmpleadoModule } from '../tipoempleado/tipoempleado.module';
 import { ModalidadValidacionModule } from '../modalidadvalidacion/modalidadvalidacion.module';
 import { EstadoEmpleadoModule } from '../estadoempleado/estadoempleado.module';
 import { ObservacionModule } from '../observacion/observacion.module';
+import { JornadaModule } from '../jornada/jornada.module';
 
 @Module({
   imports: [
@@ -14,7 +15,8 @@ import { ObservacionModule } from '../observacion/observacion.module';
     TipoEmpleadoModule,
     ModalidadValidacionModule,
     EstadoEmpleadoModule,
-    ObservacionModule
+    ObservacionModule,
+    JornadaModule
   ],
   controllers: [EmpleadoController],
   providers: [EmpleadoService],

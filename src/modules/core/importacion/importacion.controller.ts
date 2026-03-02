@@ -2,11 +2,16 @@ import { Controller, Delete, Get, Param, ParseIntPipe, Patch, Query, UseGuards }
 import { ImportacionService } from './importacion.service';
 import { GetImportacionesDto } from './dto/get-importacion.dto';
 import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard';
+import { GetJornadasByImportacionQueryDto } from '../jornada/dto/get-jornadas-importacion.dto';
+import { JornadaService } from '../jornada/jornada.service';
 
 @Controller('importacion')
 @UseGuards(JwtAuthGuard)
 export class ImportacionController {
-  constructor(private readonly importacionService: ImportacionService) {}
+  constructor(
+    private readonly importacionService: ImportacionService,
+    private readonly jornadaService: JornadaService
+  ) {}
 
   @Get()
   async getImportaciones(@Query() query: GetImportacionesDto) {
@@ -26,7 +31,10 @@ export class ImportacionController {
   };
 
   @Get(':id/jornada')
-  async getImportacionJornadas() {
-    //PENDING
-  }
+  async getJornadasByImportacion(
+    @Param('id', ParseIntPipe) id: number,
+    @Query() query: GetJornadasByImportacionQueryDto
+  ) {
+    return this.jornadaService.getJornadasByImportacion({ id_importacion: id, ...query });
+  };
 };

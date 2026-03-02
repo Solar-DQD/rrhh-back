@@ -21,7 +21,7 @@ export class GetEmpleadosDto {
     @IsString()
     @IsNotEmpty()
     @MinLength(3)
-    @MaxLength(3)
+    @MaxLength(4)
     direction: string;
 
     @IsString()

@@ -1,5 +1,6 @@
 import { TipoAusencia } from "src/modules/core/tipoausencia/entities/tipoausencia.entity";
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Empleado } from "../../empleado/entities/empleado.entity";
 
 @Entity('ausencia')
 export class Ausencia {

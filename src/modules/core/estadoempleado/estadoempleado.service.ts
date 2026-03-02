@@ -16,7 +16,7 @@ export class EstadoEmpleadoService {
     async getOrCreateEstadoEmpleado(nombre: string): Promise<number> {
         const cached = this.idCache.get(nombre);
         
-        if (cached) return cached;
+        if (cached !== undefined) return cached;
 
         let estadoEmpleado = await this.estadoEmpleadoRepository.findOne({
             where: { nombre: nombre }

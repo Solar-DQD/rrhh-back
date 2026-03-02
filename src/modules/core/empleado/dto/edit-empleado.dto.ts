@@ -2,12 +2,7 @@ import { IsNumber } from 'class-validator';
 import { Type } from 'class-transformer';
 
 export class EditEmpleadoDto {
-    @Type(() => Number)
-    @IsNumber()
     id: number;
-
-    @Type(() => Number)
-    @IsNumber()
     id_modalidadvalidacion: number;
 };
 

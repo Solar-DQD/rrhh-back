@@ -31,7 +31,7 @@ export class TipoUsuarioService {
     async getTipoUsuarioPorId(params: GetTipoUsuarioPorIdDto): Promise<TipoUsuario> {
         const cached = this.idCache.get(params.id);
 
-        if (cached) return cached;
+        if (cached !== undefined) return cached;
 
         const tipoUsuario = await this.tipoUsuarioRepository.findOne({
             where: { id: params.id }

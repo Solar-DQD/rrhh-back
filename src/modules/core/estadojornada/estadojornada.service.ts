@@ -16,7 +16,7 @@ export class EstadoJornadaService {
     async getOrCreateEstadoJornada(nombre: string): Promise<number> {
         const cached = this.idCache.get(nombre);
 
-        if (cached) return cached;
+        if (cached !== undefined) return cached;
 
         let estadoJornada = await this.estadoJornadaRepository.findOne({
             where: { nombre: nombre }

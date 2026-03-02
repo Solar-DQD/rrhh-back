@@ -30,7 +30,7 @@ export class TipoImportacionService {
     private async getOrCreateTipoImportacion(nombre: string): Promise<number> {
         const cached = this.idCache.get(nombre);
 
-        if (cached) return cached;
+        if (cached !== undefined) return cached;
 
         let tipoImportacion = await this.tipoImportacionRepository.findOne({
             where: { nombre: nombre }

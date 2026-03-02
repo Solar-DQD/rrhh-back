@@ -1,3 +1,4 @@
+import { Type } from "class-transformer";
 import { IsNotEmpty, IsNumber, IsPositive, IsString, MaxLength } from "class-validator";
 
 export class CreateControlDto {
@@ -6,6 +7,7 @@ export class CreateControlDto {
     @MaxLength(100)
     serie: string;
 
+    @Type(() => Number)
     @IsNumber()
     @IsPositive()
     id_proyecto: number;

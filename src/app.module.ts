@@ -32,6 +32,7 @@ import { NominaModule } from './modules/mssql/nomina/nomina.module';
 import { SyncEmpleadosModule } from './modules/features/syncempleados/syncempleados.module';
 import { RegistrosAccesoModule } from './modules/mssql/registros_acceso/registros_acceso.module';
 import { AsistenciaModule } from './modules/features/asistencia/asistencia.module';
+import { JornadaModule } from './modules/core/jornada/jornada.module';
 
 @Module({
   imports: [
@@ -119,7 +120,8 @@ import { AsistenciaModule } from './modules/features/asistencia/asistencia.modul
     NominaModule,
     SyncEmpleadosModule,
     RegistrosAccesoModule,
-    AsistenciaModule
+    AsistenciaModule,
+    JornadaModule
 
   ],
   providers: [

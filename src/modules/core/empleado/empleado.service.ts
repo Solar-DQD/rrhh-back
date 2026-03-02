@@ -29,66 +29,87 @@ export class EmpleadoService {
 
         const id_tipoempleado = await this.tipoEmpleadoService.getTipoEmpleadoMensual();
 
-        const query = this.empleadoRepository
+        const baseQuery = this.empleadoRepository
             .createQueryBuilder('e')
-            .select(['e.id', 'e.nombre', 'e.dni', 'e.legajo', 'e.id_proyecto', 'e.id_estadoempleado', 'e.id_tipoempleado', 'e.id_modalidadvalidacion', 'p.nombre', 'ee.nombre', 'te.nombre', 'mv.nombre'])
-            .addSelect('COALESCE((te.id = :id_tipoempleadomensual), false)', 'e.es_mensualizado')
-            .setParameter('id_tipoempleadomensual', id_tipoempleado)
             .innerJoin('e.proyecto', 'p')
             .innerJoin('e.estadoempleado', 'ee')
             .leftJoin('e.modalidadvalidacion', 'mv')
             .leftJoin('e.tipoempleado', 'te')
+
+        if (params.id_tipoempleado !== 0) {
+            baseQuery.andWhere('e.id_tipoempleado = :id_tipoempleado', { id_tipoempleado: params.id_tipoempleado });
+        };
+
+        if (params.id_tipoausencia !== -1) {
+            baseQuery.innerJoin('jornada', 'ja', 'ja.id_empleado = e.id')
+                .andWhere('ja.id_ausencia IS NOT NULL');
+
+            if (params.id_tipoausencia !== 0) {
+                baseQuery.innerJoin('ausencia', 'a', 'ja.id_ausencia = a.id')
+                    .andWhere('a.id_tipoausencia = :id_tipoausencia', { id_tipoausencia: params.id_tipoausencia });
+            };
+
+            if (params.id_mes !== 0) {
+                baseQuery.andWhere('ja.id_mes = :id_mes', { id_mes: params.id_mes });
+            };
+
+            if (params.quincena !== 0) {
+                baseQuery.innerJoin('quincena', 'q', 'ja.id_quincena = q.id')
+                    .andWhere('q.quincena = :quincena', { quincena: params.quincena });
+            };
+        };
+
+        if (params.id_proyecto !== 0) {
+            baseQuery.andWhere('e.id_proyecto = :id_proyecto', { id_proyecto: params.id_proyecto });
+        };
+
+        if (params.nombre !== '') {
+            baseQuery.andWhere('unaccent(e.nombre) ILIKE unaccent(:nombre)', { nombre: `%${params.nombre}%` });
+        };
+
+        if (params.legajo !== 0) {
+            baseQuery.andWhere('CAST(e.legajo AS TEXT) LIKE :legajo', { legajo: `%${params.legajo}%` });
+        }
+
+        if (params.manual === true) {
+            baseQuery.innerJoin('jornada', 'jm', 'jm.id_empleado = e.id')
+                .innerJoin('fuentemarca', 'fm', 'jm.id_fuentemarca = fm.id')
+                .andWhere('fm.nombre = :fuentemarca', { fuentemarca: 'Manual' });
+        };
+
+        const totalEmpleados = await baseQuery
+            .clone()
+            .select('COUNT(DISTINCT e.id)', 'total')
+            .getRawOne()
+            .then(r => parseInt(r.total, 10));
+
+        const empleados = await baseQuery
+            .clone()
+            .select([
+                'e.id AS id',
+                'e.nombre AS nombre',
+                'e.dni AS dni',
+                'e.legajo AS legajo',
+                'e.id_proyecto AS id_proyecto',
+                'e.id_estadoempleado AS id_estadoempleado',
+                'e.id_tipoempleado AS id_tipoempleado',
+                'e.id_modalidadvalidacion AS id_modalidadvalidacion',
+                'p.nombre AS nombreproyecto',
+                'ee.nombre AS estadoempleado',
+                'te.nombre AS tipoempleado',
+                'mv.nombre AS modalidadvalidacion',
+                'COALESCE((te.id = :id_tipoempleadomensual), false) AS es_mensualizado',
+            ])
+            .setParameter('id_tipoempleadomensual', id_tipoempleado)
             .groupBy('e.id')
             .addGroupBy('p.id')
             .addGroupBy('mv.id')
             .addGroupBy('ee.id')
             .addGroupBy('te.id')
             .orderBy(params.column, upperCaseDirection)
-            .take(params.limit)
-            .skip(params.page * params.limit);
-
-        if (params.id_tipoempleado !== 0) {
-            query.andWhere('e.id_tipoempleado = :id_tipoempleado', { id_tipoempleado: params.id_tipoempleado });
-        };
-
-        if (params.id_tipoausencia !== -1) {
-            query.innerJoin('jornada', 'ja', 'ja.id_empleado = e.id')
-                .andWhere('ja.id_ausencia IS NOT NULL');
-
-            if (params.id_tipoausencia !== 0) {
-                query.innerJoin('ausencia', 'a', 'ja.id_ausencia = a.id')
-                    .andWhere('a.id_tipoausencia = :id_tipoausencia', { id_tipoausencia: params.id_tipoausencia });
-            };
-
-            if (params.id_mes !== 0) {
-                query.andWhere('ja.id_mes = :id_mes', { id_mes: params.id_mes });
-            };
-
-            if (params.quincena !== 0) {
-                query.innerJoin('quincena', 'q', 'ja.id_quincena = q.id')
-                    .andWhere('q.quincena = :quincena', { quincena: params.quincena });
-            };
-        };
-
-        if (params.id_proyecto !== 0) {
-            query.andWhere('e.id_proyecto = :id_proyecto', { id_proyecto: params.id_proyecto });
-        };
-
-        if (params.nombre !== '') {
-            query.andWhere('unaccent(e.nombre) ILIKE unaccent(:nombre)', { nombre: `%${params.nombre}%` });
-        };
-
-        if (params.legajo !== 0) {
-            query.andWhere('CAST(e.legajo AS TEXT) LIKE :legajo', { legajo: `%${params.legajo}%` });
-        }
-
-        if (params.manual === true) {
-            query.innerJoin('jornada', 'jm', 'jm.id_empleado = e.id')
-                .innerJoin('fuentemarca', 'fm', 'jm.id_fuentemarca = fm.id')
-                .andWhere('fm.nombre = :fuentemarca', { fuentemarca: 'Manual' });
-        };
-
-        const [empleados, totalEmpleados] = await query.getManyAndCount();
+            .limit(params.limit)
+            .offset(params.page * params.limit)
+            .getRawMany();
 
         return {
             empleados: empleados.map(empleado => ({
@@ -100,11 +121,11 @@ export class EmpleadoService {
                 id_estadoempleado: empleado.id_estadoempleado,
                 id_tipoempleado: empleado.id_tipoempleado,
                 id_modalidadvalidacion: empleado.id_modalidadvalidacion,
-                nombreproyecto: empleado.proyecto?.nombre,
-                estadoempleado: empleado.estadoempleado?.nombre,
-                tipoempleado: empleado.tipoempleado?.nombre,
-                modalidadvalidacion: empleado.modalidadvalidacion?.nombre,
-                es_mensualizado: empleado.es_mensualizado
+                nombreproyecto: empleado.nombreproyecto,
+                estadoempleado: empleado.estadoempleado,
+                tipoempleado: empleado.tipoempleado,
+                modalidadvalidacion: empleado.modalidadvalidacion,
+                es_mensualizado: empleado.es_mensualizado,
             })),
             totalEmpleados
         };

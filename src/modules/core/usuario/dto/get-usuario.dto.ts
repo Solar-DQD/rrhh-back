@@ -21,10 +21,11 @@ export class GetUsuariosDto {
     @IsString()
     @IsNotEmpty()
     @MinLength(3)
-    @MaxLength(3)
+    @MaxLength(4)
     direction: string;
 
     @IsString()
+    @IsNotEmpty()
     nombre: string;
 
     @Type(() => Number)

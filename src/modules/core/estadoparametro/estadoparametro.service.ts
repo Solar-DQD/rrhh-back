@@ -16,7 +16,7 @@ export class EstadoParametroService {
     async getOrCreateEstadoParametro(nombre: string): Promise<number> {
         const cached = this.idCache.get(nombre);
 
-        if (cached) return cached;
+        if (cached !== undefined) return cached;
 
         let estadoParametro = await this.estadoParametroRepository.findOne({
             where: { nombre: nombre }

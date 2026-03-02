@@ -16,7 +16,7 @@ export class EstadoImportacionService {
     async getOrCreateEstadoImportacion(nombre: string): Promise<number> {
         const cached = this.idCache.get(nombre);
 
-        if (cached) return cached;
+        if (cached !== undefined) return cached;
 
         let estadoImportacion = await this.estadoImportacionRepository.findOne({
             where: { nombre: nombre }

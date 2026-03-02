@@ -16,7 +16,7 @@ export class FuenteMarcaService {
     private async getOrCreateFuenteMarca(nombre: string): Promise<number> {
         const cached = this.idCache.get(nombre);
 
-        if (cached) return cached;
+        if (cached !== undefined) return cached;
 
         let fuenteMarca = await this.fuenteMarcaRepository.findOne({
             where: { nombre: nombre }

@@ -30,7 +30,7 @@ export class ModalidadTrabajoService {
     private async getOrCreateModalidadTrabajo(nombre: string): Promise<number> {
         const cached = this.idCache.get(nombre);
 
-        if (cached) return cached;
+        if (cached !== undefined) return cached;
 
         let modalidadTrabajo = await this.modalidadTrabajoRepository.findOne({
             where: { nombre: nombre }

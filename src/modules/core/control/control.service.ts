@@ -22,7 +22,7 @@ export class ControlService {
     async getControlesByProyecto(params: GetControlesByProyectoDto): Promise<string[]> {
         const cached = this.controlesCache.get(params.id_proyecto);
 
-        if (cached) return cached;
+        if (cached !== undefined) return cached;
 
         const controles = await this.controlRepository.find({
             select: { serie: true },
