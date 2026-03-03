@@ -66,7 +66,7 @@ export class AsistenciaService {
     };
 
     //Get ausentes by proyecto
-    async getAusentesByProyectoAndFecha(params: GetAusentesByProyectoAndFechasDto): Promise<bigint[]> {
+    async getAusentesByProyectoAndFecha(params: GetAusentesByProyectoAndFechasDto): Promise<string[]> {
         const proyecto = await this.proyectoService.getProyectoNomina({ id: params.id_proyecto });
 
         const nomina = await this.nominaService.getNominaActivaByProyecto({ proyecto });

@@ -12,8 +12,8 @@ export class Empleado {
     @Column()
     nombre: string;
 
-    @Column()
-    dni: bigint;
+    @Column({ type: 'bigint' })
+    dni: string;
 
     @Column()
     legajo: number;

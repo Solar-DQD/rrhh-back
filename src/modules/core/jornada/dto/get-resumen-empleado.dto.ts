@@ -1,7 +1,7 @@
 import { IsNumber, IsPositive } from 'class-validator';
 import { Type } from 'class-transformer';
 
-export class GetResumenByEmpleadoDto {
+export type GetResumenByEmpleadoDto = {
     id_empleado: number;
     id_mes: number;
     quincena: number;
@@ -19,7 +19,7 @@ export class GetResumenByEmpleadoQueryDto {
     quincena: number;
 };
 
-export class ResumenItemDto {
+export type ResumenItemDto = {
     suma_total: number;
     suma_total_normal: number;
     suma_total_50: number;
@@ -31,6 +31,6 @@ export class ResumenItemDto {
     total_ausencias_justificadas: number;
 };
 
-export class ResumenResponseDto {
+export type ResumenResponseDto = {
     resumen: ResumenItemDto;
 };

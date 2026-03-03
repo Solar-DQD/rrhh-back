@@ -1,3 +1,3 @@
-export class DeactivateUsuarioDto {
+export type DeactivateUsuarioDto = {
     id: number;
 };

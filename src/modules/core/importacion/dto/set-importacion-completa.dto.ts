@@ -1,3 +1,3 @@
-export class SetEstadoImportacionCompletaDto {
+export type SetEstadoImportacionCompletaDto = {
     id: number;
 };

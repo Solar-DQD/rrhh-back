@@ -1,3 +1,3 @@
-export class GetProyectoByNominaDto {
+export type GetProyectoByNominaDto = {
     nomina: string;
 };

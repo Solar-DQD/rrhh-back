@@ -1,3 +1,3 @@
-export class GetJornadaAusenciaDto {
+export type GetJornadaAusenciaDto = {
     id: number;
 };

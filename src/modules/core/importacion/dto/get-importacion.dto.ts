@@ -24,7 +24,7 @@ export class GetImportacionesDto {
     incomplete: boolean;
 };
 
-export class ImportacionItemDto {
+export type ImportacionItemDto = {
     id: number;
     fecha: string;
     nombre: string;
@@ -33,7 +33,7 @@ export class ImportacionItemDto {
     nombreproyecto: string;
 };
 
-export class ImportacionesResponseDto {
+export type ImportacionesResponseDto = {
     importaciones: ImportacionItemDto[];
     totalImportaciones: number;
 };

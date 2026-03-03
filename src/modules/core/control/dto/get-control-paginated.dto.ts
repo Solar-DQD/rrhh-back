@@ -15,14 +15,14 @@ export class GetControlesPaginatedDto {
     limit: number;
 };
 
-export class ControlesItemDto {
+export type ControlesItemDto = {
     id: number;
     serie: string;
     id_proyecto: number;
     proyectonombre: string;
 };
 
-export class ControlesPaginatedResponseDto {
+export type ControlesPaginatedResponseDto = {
     controles: ControlesItemDto[];
     totalControles: number;
 };

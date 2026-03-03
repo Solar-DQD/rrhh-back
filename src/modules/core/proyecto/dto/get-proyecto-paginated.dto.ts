@@ -15,7 +15,7 @@ export class GetProyectosPaginatedDto {
     limit: number;
 };
 
-export class ProyectoItemDto {
+export type ProyectoItemDto = {
     id: number;
     nombre: string;
     nomina: string;
@@ -24,7 +24,7 @@ export class ProyectoItemDto {
     id_modalidadtrabajo: number;
 };
 
-export class ProyectosPaginatedResponseDto {
+export type ProyectosPaginatedResponseDto = {
     proyectos: ProyectoItemDto[];
     totalProyectos: number;
 };

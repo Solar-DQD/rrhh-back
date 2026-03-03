@@ -15,6 +15,7 @@ export class JornadaController {
     private readonly jornadaService: JornadaService,
     private readonly observacionService: ObservacionService
   ) {}
+  
   @Post()
   @HttpCode(HttpStatus.CREATED)
   async createJornadaManual(

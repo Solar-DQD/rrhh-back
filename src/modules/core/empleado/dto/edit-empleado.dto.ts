@@ -1,7 +1,7 @@
 import { IsNumber } from 'class-validator';
 import { Type } from 'class-transformer';
 
-export class EditEmpleadoDto {
+export type EditEmpleadoDto = {
     id: number;
     id_modalidadvalidacion: number;
 };
@@ -12,7 +12,7 @@ export class EditEmpleadoBodyDto {
     id_modalidadvalidacion: number;
 };
 
-export class EditEmpleadoSyncDto {
+export type EditEmpleadoSyncDto = {
     id: number;
     legajo: number;
     nombre: string;

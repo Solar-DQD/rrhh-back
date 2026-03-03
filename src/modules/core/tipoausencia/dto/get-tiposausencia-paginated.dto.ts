@@ -15,13 +15,13 @@ export class GetTiposAusenciaPaginatedDto {
     limit: number;
 }
 
-export class TipoAusenciaItemDto {
+export type TipoAusenciaItemDto = {
     id: number;
     nombre: string;
     estadoparametro?: string;
 }
 
-export class TiposAusenciaPaginatedResponseDto {
+export type TiposAusenciaPaginatedResponseDto = {
     tiposAusencia: TipoAusenciaItemDto[];
     totalTiposAusencia: number;
 }

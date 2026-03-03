@@ -1,11 +1,11 @@
-export class EmpleadoAsistenciaItemDto {
+export type EmpleadoAsistenciaItemDto = {
     id: number;
     nombre: string;
-    dni: bigint;
+    dni: string;
     id_tipoempleado: number;
     tipoempleado: string;
 };
 
-export class EmpleadosAsistenciaResponseDto {
+export type EmpleadosAsistenciaResponseDto = {
     empleados: EmpleadoAsistenciaItemDto[];
 };

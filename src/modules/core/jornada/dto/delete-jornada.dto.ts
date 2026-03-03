@@ -1,3 +1,3 @@
-export class DeleteJornadaDto {
+export type DeleteJornadaDto = {
     id: number;
 };

@@ -33,7 +33,7 @@ export class GetUsuariosDto {
     id_tipousuario: number;
 };
 
-export class UsuarioItemDto {
+export type UsuarioItemDto = {
     id: number;
     nombre: string;
     email: string;
@@ -42,7 +42,7 @@ export class UsuarioItemDto {
     estadousuario: string;
 };
 
-export class UsuariosResponseDto {
+export type UsuariosResponseDto = {
     usuarios: UsuarioItemDto[];
     totalUsuarios: number;
 };

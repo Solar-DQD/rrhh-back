@@ -1,7 +1,7 @@
 import { Type } from "class-transformer";
 import { IsNumber, IsPositive } from "class-validator";
 
-export class EditAusenciaDto {
+export type EditAusenciaDto = {
     id: number;
     id_tipoausencia: number;
 };

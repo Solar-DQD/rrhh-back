@@ -1,3 +1,3 @@
-export class DeleteImportacionDto {
+export type DeleteImportacionDto = {
     id: number;
 };

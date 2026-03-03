@@ -62,10 +62,10 @@ export class GetEmpleadosDto {
     manual: boolean;
 };
 
-export class EmpleadoItemDto {
+export type EmpleadoItemDto = {
     id: number;
     nombre: string;
-    dni: bigint;
+    dni: string;
     legajo: number;
     id_proyecto: number;
     id_estadoempleado: number;
@@ -77,7 +77,7 @@ export class EmpleadoItemDto {
     es_mensualizado: boolean;
 };
 
-export class EmpleadosResponseDto {
+export type EmpleadosResponseDto = {
     empleados: EmpleadoItemDto[];
     totalEmpleados: number;
 };

@@ -1,3 +1,3 @@
-export class GetTipoUsuarioPorIdDto {
+export type GetTipoUsuarioPorIdDto = {
     id: number;
 }

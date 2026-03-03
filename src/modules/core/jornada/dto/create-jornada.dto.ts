@@ -1,4 +1,4 @@
-export class CreateJornadaDto {
+export type CreateJornadaDto = {
     fecha: string;
     entrada?: string;
     salida?: string;

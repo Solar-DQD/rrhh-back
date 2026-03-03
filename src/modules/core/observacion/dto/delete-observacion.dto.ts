@@ -1,3 +1,3 @@
-export class DeleteObservacionDto {
+export type DeleteObservacionDto = {
     id: number;
 };

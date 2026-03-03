@@ -39,7 +39,7 @@ export class CreateJornadaManualBodyDto {
     id_tipojornada: number;
 };
 
-export class CreateJornadaManualDto {
+export type CreateJornadaManualDto = {
     fecha: string;
     entrada: string;
     salida: string;

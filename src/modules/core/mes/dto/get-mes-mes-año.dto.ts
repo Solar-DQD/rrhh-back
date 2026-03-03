@@ -1,4 +1,4 @@
-export class GetMesByMesAndAñoDto {
+export type GetMesByMesAndAñoDto = {
     id_año: number;
     mes: number;
 }

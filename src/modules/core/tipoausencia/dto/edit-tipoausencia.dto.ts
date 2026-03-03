@@ -1,6 +1,6 @@
 import { IsString, IsNotEmpty, MaxLength } from 'class-validator';
 
-export class EditTipoAusenciaDto {
+export type EditTipoAusenciaDto = {
     id: number;
     nombre: string;
 };

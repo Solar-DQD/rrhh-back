@@ -1,7 +1,7 @@
-export class GetNominaActivaByProyectoDto {
+export type GetNominaActivaByProyectoDto = {
     proyecto: string;
 };
 
-export class NominaActivaByProyectoResponseDto {
-    dni: bigint;
+export type NominaActivaByProyectoResponseDto = {
+    dni: string;
 };

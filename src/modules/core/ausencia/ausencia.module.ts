@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { AusenciaService } from './entities/ausencia.service';
+import { AusenciaService } from './ausencia.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Ausencia } from './entities/ausencia.entity';
 

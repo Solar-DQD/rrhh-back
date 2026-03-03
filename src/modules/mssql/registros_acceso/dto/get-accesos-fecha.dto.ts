@@ -1,7 +1,7 @@
-export class GetAccesosByFechaDto {
+export type GetAccesosByFechaDto = {
     fecha: string
 };
 
-export class AccesosByFechaResponseDto {
-    dni: bigint
+export type AccesosByFechaResponseDto = {
+    dni: string
 };

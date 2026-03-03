@@ -1,7 +1,7 @@
 import { IsNumber, Min, Max, IsPositive } from 'class-validator';
 import { Type } from 'class-transformer';
 
-export class GetObservacionesByEmpleadoDto {
+export type GetObservacionesByEmpleadoDto = {
     page: number;
     limit: number;
     quincena: number;
@@ -35,13 +35,13 @@ export class GetObservacionesByEmpleadoBodyDto {
     mes: number;
 };
 
-export class ObservacionItemDto {
+export type ObservacionItemDto = {
     id: number;
     texto: string;
     fecha: string;
 };
 
-export class ObservacionesByEmpleadoResponseDto {
+export type ObservacionesByEmpleadoResponseDto = {
     observaciones: ObservacionItemDto[];
     totalObservaciones: number;
 };

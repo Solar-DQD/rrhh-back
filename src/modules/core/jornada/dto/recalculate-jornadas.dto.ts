@@ -1,3 +1,3 @@
-export class recalculateJornadasEmpleadoDto {
+export type recalculateJornadasEmpleadoDto = {
     id_empleado: number
 };

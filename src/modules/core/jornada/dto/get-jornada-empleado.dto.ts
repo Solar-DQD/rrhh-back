@@ -1,7 +1,7 @@
 import { IsNumber, Min, Max, IsPositive, IsBoolean } from 'class-validator';
 import { Transform, Type } from 'class-transformer';
 
-export class GetJornadasByEmpleadoDto {
+export type GetJornadasByEmpleadoDto = {
     page: number;
     limit: number;
     id_empleado: number;
@@ -49,7 +49,7 @@ export class GetJornadasByEmpleadoQueryDto {
     ausencias: boolean;
 };
 
-export class JornadaItemDto {
+export type JornadaItemDto = {
     id: number;
     fecha: Date;
     entrada: string;
@@ -63,7 +63,7 @@ export class JornadaItemDto {
     observaciones: string[];
 };
 
-export class JornadaResponseDto {
+export type JornadaResponseDto = {
     jornadas: JornadaItemDto[];
     totalJornadas: number;
 };

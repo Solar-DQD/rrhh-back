@@ -1,5 +1,5 @@
-export class NominaActivaResponseDto {
-    dni: bigint;
+export type NominaActivaResponseDto = {
+    dni: string;
     legajo: string;
     apellido: string;
     nombre: string;

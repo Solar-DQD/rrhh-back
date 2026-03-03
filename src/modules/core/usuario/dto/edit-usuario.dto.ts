@@ -1,7 +1,7 @@
 import { Type } from "class-transformer";
 import { IsNotEmpty, IsNumber, IsPositive, IsString, MaxLength } from "class-validator";
 
-export class EditUsuarioDto {
+export type EditUsuarioDto = {
     id: number;
     nombre: string;
     email: string;

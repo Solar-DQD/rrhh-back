@@ -1,3 +1,3 @@
-export class GetProyectoByIdDto {
+export type GetProyectoByIdDto = {
     id: number;
 };

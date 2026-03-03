@@ -23,18 +23,18 @@ export class GetResumenByEmpleadosDto {
     ids_proyecto: number[];
 }; //PEDNING cleaning?
 
-export class AusenciaResumen {
+export type AusenciaResumen = {
     id: number;
     nombre: string;
     cantidad: string;
 };
 
-export class ObservacionResumen {
+export type ObservacionResumen = {
     fecha: Date;
     texto: string;
 };
 
-export class ResumenesResponseDto {
+export type ResumenesResponseDto = {
     legajo: number;
     empleado: string;
     suma_total: string;

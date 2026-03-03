@@ -1,10 +1,10 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Ausencia } from './ausencia.entity';
 import { Repository } from 'typeorm';
-import { CreateAusenciaDto } from '../dto/create-ausencia.dto';
-import { EditAusenciaDto } from '../dto/edit-ausencia.dto';
-import { DeleteAusenciaDto } from '../dto/delete-ausencia.dto';
+import { Ausencia } from './entities/ausencia.entity';
+import { CreateAusenciaDto } from './dto/create-ausencia.dto';
+import { EditAusenciaDto } from './dto/edit-ausencia.dto';
+import { DeleteAusenciaDto } from './dto/delete-ausencia.dto';
 
 @Injectable()
 export class AusenciaService {

@@ -1,6 +1,6 @@
 import { IsNotEmpty, IsString } from "class-validator";
 
-export class CreateObservacionDto {
+export type CreateObservacionDto = {
     texto: string;
     id_jornada: number;
 };

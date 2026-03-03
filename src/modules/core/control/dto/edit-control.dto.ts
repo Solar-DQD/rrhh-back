@@ -1,7 +1,7 @@
 import { Type } from 'class-transformer';
 import { IsNumber, IsPositive, IsString, IsNotEmpty, MaxLength } from 'class-validator';
 
-export class EditControlDto {
+export type EditControlDto = {
     id: number;
     serie: string;
     id_proyecto: number;

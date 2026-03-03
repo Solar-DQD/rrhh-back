@@ -1,3 +1,3 @@
-export class GetEmpleadoByDniDto {
-    dni: bigint;
+export type GetEmpleadoByDniDto = {
+    dni: string;
 };

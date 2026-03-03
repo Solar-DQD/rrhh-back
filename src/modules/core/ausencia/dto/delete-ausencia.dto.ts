@@ -1,3 +1,3 @@
-export class DeleteAusenciaDto {
+export type DeleteAusenciaDto = {
     id: number;
 };

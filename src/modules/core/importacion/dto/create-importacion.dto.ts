@@ -1,4 +1,4 @@
-export class CreateImportacionDto {
+export type CreateImportacionDto = {
     filename: string;
     id_proyecto: number;
     id_estadoimportacion: number;

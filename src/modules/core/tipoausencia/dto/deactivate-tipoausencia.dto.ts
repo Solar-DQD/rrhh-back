@@ -1,3 +1,3 @@
-export class DeactivateTipoAusenciaDto {
+export type DeactivateTipoAusenciaDto = {
     id: number;
 }

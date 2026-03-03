@@ -1,4 +1,4 @@
-export class GetQuincenaByQuincenaAndMesDto {
+export type GetQuincenaByQuincenaAndMesDto = {
     id_mes: number;
     quincena: number;
 }

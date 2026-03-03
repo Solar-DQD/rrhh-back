@@ -20,10 +20,11 @@ import { AñoService } from '../año/año.service';
 import { QuincenaService } from '../quincena/quincena.service';
 import { MesService } from '../mes/mes.service';
 import { EmpleadoService } from '../empleado/empleado.service';
-import { AusenciaService } from '../ausencia/entities/ausencia.service';
+import { AusenciaService } from '../ausencia/ausencia.service';
 import { ObservacionService } from '../observacion/observacion.service';
 import { CreateJornadaManualDto } from './dto/create-jornada-manual.dto';
 import { EditAusenciaDto } from '../ausencia/dto/edit-ausencia.dto';
+import { GetJornadaAusenciaByEmpleadoDto } from './dto/get-jornada-ausencia-empleado.dto';
 
 @Injectable()
 export class JornadaService {
@@ -364,6 +365,22 @@ export class JornadaService {
         return jornada.id_ausencia;
     };
 
+    //Get jornada id_ausencia by empleado, fecha
+    async getJornadaAusenciaByEmpleado(params: GetJornadaAusenciaByEmpleadoDto): Promise<number> {
+        const id_tipojornada = await this.tipoJornadaService.getTipoJornadaAusencia();
+
+        const jornada = await this.jornadaRepository.findOne({
+            select: { id_ausencia: true },
+            where: { id_empleado: params.id_empleado, fecha: new Date(params.fecha), id_tipojornada: id_tipojornada }
+        });
+
+        if (!jornada) {
+            throw new NotFoundException(`Jornada not found`);
+        };
+
+        return jornada.id_ausencia;
+    };
+
     //Delete jornada
     async deleteJornada(params: DeleteJornadaDto): Promise<void> {
         const result = await this.jornadaRepository.delete({ id: params.id });
@@ -420,7 +437,7 @@ export class JornadaService {
         };
 
         await this.ausenciaService.editAusencia({ id: id_ausencia, id_tipoausencia: params.id_tipoausencia });
-    };  
+    };
 
     //Set estadoJornada valido
     async setEstadoJornadaValida(params: SetEstadoJornadaValidaDto): Promise<void> {

@@ -1,6 +1,6 @@
 import { IsNotEmpty, IsString } from "class-validator";
 
-export class EditJornadaDto {
+export type EditJornadaDto = {
     id: number;
     entrada: string;
     salida: string;

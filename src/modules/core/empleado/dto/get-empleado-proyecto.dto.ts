@@ -1,3 +1,3 @@
-export class GetEmpleadoProyectoDto {
+export type GetEmpleadoProyectoDto = {
     id: number;
 };

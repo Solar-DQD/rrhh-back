@@ -53,8 +53,8 @@ export class TipoImportacionService {
         return this.getOrCreateTipoImportacion('ProSoft');
     };
 
-    //Get tipo importacion Ausentes
-    async getTipoImportacionAusentes(): Promise<number> {
-        return this.getOrCreateTipoImportacion('Ausentes');
+    //Get tipo importacion HikVision
+    async getTipoImportacionHikVision(): Promise<number> {
+        return this.getOrCreateTipoImportacion('HikVision');
     };
 };

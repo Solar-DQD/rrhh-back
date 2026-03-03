@@ -168,7 +168,7 @@ export class EmpleadoService {
             where: { id_modalidadvalidacion: id_modalidadvalidacion }
         });
 
-        return empleados.map(empleado => String(empleado.dni));
+        return empleados.map(empleado => empleado.dni);
     };
 
     //Get all

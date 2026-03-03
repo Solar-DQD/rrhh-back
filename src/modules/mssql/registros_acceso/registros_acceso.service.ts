@@ -42,7 +42,7 @@ export class RegistrosAccesoService {
     async getAccesos(params: GetAccesosByFechaAndProyectoDto): Promise<AccesosReturn[]> {
          const accesos = await this.registrosAccesoRepository
             .createQueryBuilder('registros_acceso')
-            .select(['registros_acceso.fecha_acceso', 'registros_acceso.hora_acceso', 'registros_acceso.nombre'])
+            .select(['registros_acceso.fecha_acceso', 'registros_acceso.hora_acceso', 'registros_acceso.nombre', 'registros_acceso.fecha_hora_acceso'])
             .addSelect('CAST(registros_acceso.id_empleado AS BIGINT)', 'dni')
             .where('registros_acceso.fecha_acceso = :fecha', { fecha: params.fecha })
             .andWhere('registro_acceso.numero_serie_dispositivo IN (:...dispositivos)', { dispositivos: params.dispositivos })

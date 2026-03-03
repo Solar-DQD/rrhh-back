@@ -1,7 +1,7 @@
 import { IsNumber, IsPositive, Max, Min } from 'class-validator';
 import { Type } from 'class-transformer';
 
-export class GetJornadasByImportacionDto {
+export type GetJornadasByImportacionDto = {
     page: number;
     limit: number;
     id_importacion: number;
@@ -21,7 +21,7 @@ export class GetJornadasByImportacionQueryDto {
     limit: number;
 };
 
-export class JornadasImportacionItemDto {
+export type JornadasImportacionItemDto = {
     id: number;
     fecha: string;
     entrada: string;
@@ -32,7 +32,7 @@ export class JornadasImportacionItemDto {
     ausencia: boolean;
 };
 
-export class JornadasImportacionResponseDto {
+export type JornadasImportacionResponseDto = {
     jornadas: JornadasImportacionItemDto[];
     totalJornadas: number;
 };

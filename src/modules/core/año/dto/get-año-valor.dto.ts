@@ -1,3 +1,3 @@
-export class GetAñoByValorDto {
+export type GetAñoByValorDto = {
     valor: number;
 }

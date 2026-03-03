@@ -33,6 +33,8 @@ import { SyncEmpleadosModule } from './modules/features/syncempleados/syncemplea
 import { RegistrosAccesoModule } from './modules/mssql/registros_acceso/registros_acceso.module';
 import { AsistenciaModule } from './modules/features/asistencia/asistencia.module';
 import { JornadaModule } from './modules/core/jornada/jornada.module';
+import { ImportarModule } from './modules/features/importar/importar.module';
+import { ExcelModule } from './modules/features/excel/excel.module';
 
 @Module({
   imports: [
@@ -121,7 +123,9 @@ import { JornadaModule } from './modules/core/jornada/jornada.module';
     SyncEmpleadosModule,
     RegistrosAccesoModule,
     AsistenciaModule,
-    JornadaModule
+    JornadaModule,
+    ImportarModule,
+    ExcelModule
 
   ],
   providers: [
