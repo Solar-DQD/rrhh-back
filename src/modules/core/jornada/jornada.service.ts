@@ -193,7 +193,7 @@ export class JornadaService {
             valoresBase.push(params.id_tipoempleado);
         };
 
-        if (params.ids_proyecto.length !== 0) {
+        if (params.ids_proyecto && params.ids_proyecto.length !== 0) {
             let proyectoFiltro = `AND EXISTS (SELECT 1 FROM "jornada" jp`;
 
             if (params.quincena !== 0) {

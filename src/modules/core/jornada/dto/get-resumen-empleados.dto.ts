@@ -1,27 +1,9 @@
-import { IsNumber,IsPositive, IsArray } from 'class-validator';
-import { Transform, Type } from 'class-transformer';
-
 export class GetResumenByEmpleadosDto {
-    @Type(() => Number)
-    @IsNumber()
-    @IsPositive()
     id_mes: number;
-
-    @Type(() => Number)
-    @IsNumber()
-    @IsPositive()
-    quincena: number;
-
-    @Type(() => Number)
-    @IsNumber()
-    @IsPositive()
-    id_tipoempleado: number;
-
-    @Transform(({ value }) => Array.isArray(value) ? value.map(Number) : [Number(value)])
-    @IsArray()
-    @IsNumber({}, { each: true })
+    quincena?: number;
+    id_tipoempleado?: number;
     ids_proyecto: number[];
-}; //PEDNING cleaning?
+};
 
 export type AusenciaResumen = {
     id: number;

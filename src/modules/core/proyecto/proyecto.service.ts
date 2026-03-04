@@ -9,6 +9,7 @@ import { CreateProyectoDto } from './dto/create-proyecto.dto';
 import { GetProyectoByIdDto } from './dto/get-proyecto-id.dto';
 import { GetProyectoByNominaDto } from './dto/get-proyecto-nomina.dto';
 import { DeactivateProyectoDto } from './dto/deactivate-proyecto.dto';
+import { GetProyectoNombreDto } from './dto/get-proyecto-nombre.dto';
 
 @Injectable()
 export class ProyectoService {
@@ -106,6 +107,20 @@ export class ProyectoService {
         };
 
         return proyecto.id;
+    };
+
+    //Get proyecto nombre
+    async getProyectoNombre(params: GetProyectoNombreDto): Promise<string> {
+        const proyecto = await this.proyectoRepository.findOne({
+            select: { nombre: true },
+            where: { id: params.id }
+        });
+
+        if (!proyecto) {
+            throw new NotFoundException(`Proyecto with id ${params.id} not found`);
+        };
+
+        return proyecto.nombre;
     };
 
     //Deactivate proyecto

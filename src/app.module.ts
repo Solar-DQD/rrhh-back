@@ -35,6 +35,7 @@ import { AsistenciaModule } from './modules/features/asistencia/asistencia.modul
 import { JornadaModule } from './modules/core/jornada/jornada.module';
 import { ImportarModule } from './modules/features/importar/importar.module';
 import { ExcelModule } from './modules/features/excel/excel.module';
+import { ExportarModule } from './modules/features/exportar/exportar.module';
 
 @Module({
   imports: [
@@ -125,7 +126,8 @@ import { ExcelModule } from './modules/features/excel/excel.module';
     AsistenciaModule,
     JornadaModule,
     ImportarModule,
-    ExcelModule
+    ExcelModule,
+    ExportarModule
 
   ],
   providers: [
