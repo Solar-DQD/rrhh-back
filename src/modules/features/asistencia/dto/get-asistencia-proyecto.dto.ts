@@ -1,5 +1,5 @@
 import { Type } from "class-transformer";
-import { IsNotEmpty, IsNumber, IsPositive, IsString, Max, Min } from "class-validator";
+import { IsNotEmpty, IsNumber, IsString, Max, Min } from "class-validator";
 import { EmpleadoAsistenciaItemDto } from "src/modules/core/empleado/dto/get-empleado-asistencia.dto";
 
 export class GetAsistenciaProyectoDto {
@@ -18,7 +18,6 @@ export class GetAsistenciaProyectoDto {
 
     @Type(() => Number)
     @IsNumber()
-    @IsPositive()
     @Min(1)
     @Max(100)
     limit?: number;

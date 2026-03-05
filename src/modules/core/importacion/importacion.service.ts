@@ -29,11 +29,11 @@ export class ImportacionService {
             .take(params.limit)
             .skip(params.page * params.limit);
 
-        if (params.incomplete) {
+        if (params.incompletas) {
             query.andWhere('i.id_estadoimportacion != :id_estadoimportacion', { id_estadoimportacion: id_estadoimportacion });
         };
 
-        if (params.id_proyecto !== 0) {
+        if (params.id_proyecto !== undefined) {
             query.andWhere('i.id_proyecto = :id_proyecto', { id_proyecto: params.id_proyecto })
         };
 

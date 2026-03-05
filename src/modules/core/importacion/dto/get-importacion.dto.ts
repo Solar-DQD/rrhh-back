@@ -1,4 +1,4 @@
-import { IsNumber, Min, Max, IsPositive, IsBoolean } from 'class-validator';
+import { IsNumber, Min, Max, IsPositive, IsBoolean, IsOptional } from 'class-validator';
 import { Transform, Type } from 'class-transformer';
 
 export class GetImportacionesDto {
@@ -9,19 +9,18 @@ export class GetImportacionesDto {
 
     @Type(() => Number)
     @IsNumber()
-    @IsPositive()
     @Min(0)
     @Max(100)
     limit: number;
 
     @Type(() => Number)
     @IsNumber()
-    @IsPositive()
-    id_proyecto: number;
+    @IsOptional()
+    id_proyecto?: number;
 
     @Transform(({ value }) => value === 'true')
     @IsBoolean()
-    incomplete: boolean;
+    incompletas: boolean;
 };
 
 export type ImportacionItemDto = {

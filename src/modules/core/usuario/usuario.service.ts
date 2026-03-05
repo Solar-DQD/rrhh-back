@@ -21,17 +21,16 @@ export class UsuarioService {
     //Get usuario by correo
     async getUsuarioByEmail(params: GetUsuarioByEmailDto) {
         const id_estadousuario = await this.estadoUsuarioService.getEstadoUsuarioBaja();
-        const lowerCaseEmail = params.email.toLowerCase();
 
         const usuario = await this.usuarioRepository.findOne({
             where: {
-                email: ILike(lowerCaseEmail),
+                email: ILike(params.email),
                 id_estadousuario: Not(id_estadousuario)
             }
         });
 
         if (!usuario) {
-            throw new NotFoundException(`Usuario with email ${lowerCaseEmail} not found`)
+            throw new NotFoundException(`Usuario with email ${params.email} not found`)
         };
 
         return usuario;
@@ -50,7 +49,7 @@ export class UsuarioService {
             .skip(params.page * params.limit)
             .orderBy(params.column, upperCaseDirection);
 
-        if (params.id_tipousuario !== 0) {
+        if (params.id_tipousuario !== undefined) {
             query.andWhere('u.id_tipousuario = :id_tipousuario', { id_tipousuario: params.id_tipousuario })
         };
 

@@ -14,6 +14,6 @@ export class CreateProyectoDto {
 
     @Type(() => Number)
     @IsNumber()
-    @IsPositive()
+    
     id_modalidadtrabajo: number;
 };

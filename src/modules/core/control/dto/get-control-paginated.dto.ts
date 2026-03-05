@@ -9,7 +9,7 @@ export class GetControlesPaginatedDto {
 
     @Type(() => Number)
     @IsNumber()
-    @IsPositive()
+    
     @Min(1)
     @Max(100)
     limit: number;

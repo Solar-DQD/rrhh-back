@@ -29,11 +29,11 @@ export class ObservacionService {
             .take(params.limit)
             .skip(params.page * params.limit);
 
-        if (params.mes !== 0) {
-            query.andWhere('j.id_mes = :mes', { mes: params.mes });
+        if (params.id_mes !== 0) {
+            query.andWhere('j.id_mes = :mes', { mes: params.id_mes });
         };
 
-        if (params.quincena !== 0) {
+        if (params.quincena !== undefined) {
             query.innerJoin('j.quincena', 'q')
                 .andWhere('q.quincena = :quincena', { quincena: params.quincena });
         };
@@ -44,7 +44,7 @@ export class ObservacionService {
             observaciones: observaciones.map(observacion => ({
                 id: observacion.id,
                 texto: observacion.texto,
-                fecha: observacion.jornada?.fecha
+                fecha: observacion.jornada?.fecha.toString()
             })),
             totalObservaciones
         };

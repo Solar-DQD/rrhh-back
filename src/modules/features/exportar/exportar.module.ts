@@ -6,6 +6,7 @@ import { ExcelModule } from '../excel/excel.module';
 import { ProyectoModule } from 'src/modules/core/proyecto/proyecto.module';
 import { TipoEmpleadoModule } from 'src/modules/core/tipoempleado/tipoempleado.module';
 import { MesModule } from 'src/modules/core/mes/mes.module';
+import { JornadaModule } from 'src/modules/core/jornada/jornada.module';
 
 @Module({
   imports: [
@@ -13,7 +14,8 @@ import { MesModule } from 'src/modules/core/mes/mes.module';
     ExcelModule,
     ProyectoModule,
     MesModule,
-    TipoEmpleadoModule
+    TipoEmpleadoModule,
+    JornadaModule
   ],
   controllers: [ExportarController],
   providers: [ExportarService],

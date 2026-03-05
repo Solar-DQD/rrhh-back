@@ -10,12 +10,12 @@ export type GetResumenByEmpleadoDto = {
 export class GetResumenByEmpleadoQueryDto {
     @Type(() => Number)
     @IsNumber()
-    @IsPositive()
+    
     id_mes: number;
 
     @Type(() => Number)
     @IsNumber()
-    @IsPositive()
+    
     quincena: number;
 };
 

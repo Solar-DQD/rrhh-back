@@ -1,4 +1,4 @@
-import { IsNumber, Min, Max, IsPositive, IsBoolean, IsString, IsNotEmpty, MinLength, MaxLength } from 'class-validator';
+import { IsNumber, Min, Max, IsPositive, IsBoolean, IsString, IsNotEmpty, MinLength, MaxLength, IsOptional } from 'class-validator';
 import { Transform, Type } from 'class-transformer';
 
 export class GetEmpleadosDto {
@@ -9,7 +9,6 @@ export class GetEmpleadosDto {
 
     @Type(() => Number)
     @IsNumber()
-    @IsPositive()
     @Min(0)
     @Max(100)
     limit: number;
@@ -25,33 +24,34 @@ export class GetEmpleadosDto {
     direction: string;
 
     @IsString()
-    @IsNotEmpty()
-    nombre: string;
+    @IsOptional()
+    nombre?: string;
 
     @Type(() => Number)
     @IsNumber()
-    @IsPositive()
-    legajo: number;
+    
+    legajo?: number;
 
     @Type(() => Number)
     @IsNumber()
-    @IsPositive()
-    id_proyecto: number;
+    
+    id_proyecto?: number;
 
     @Type(() => Number)
     @IsNumber()
-    @IsPositive()
-    id_mes: number;
+    @IsOptional()
+    id_mes?: number;
 
     @Type(() => Number)
     @IsNumber()
-    @IsPositive()
-    quincena: number;
+    @IsOptional()
+    quincena?: number;
 
     @Type(() => Number)
     @IsNumber()
-    @IsPositive()
-    id_tipoempleado: number;
+    
+    @IsOptional()
+    id_tipoempleado?: number;
 
     @Type(() => Number)
     @IsNumber()
@@ -59,7 +59,8 @@ export class GetEmpleadosDto {
 
     @Transform(({ value }) => value === 'true')
     @IsBoolean()
-    manual: boolean;
+    @IsOptional()
+    manual?: boolean;
 };
 
 export type EmpleadoItemDto = {

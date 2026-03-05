@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpCode, HttpStatus, Param, ParseIntPipe, Patch, Post, Query, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, ParseIntPipe, Patch, Post, Query, UseGuards } from '@nestjs/common';
 import { EmpleadoService } from './empleado.service';
 import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard';
 import { GetEmpleadosDto } from './dto/get-empleado.dto';
@@ -40,7 +40,7 @@ export class EmpleadoController {
     return { message: 'Empleado edited' };
   };
 
-  @Patch(':id')
+  @Delete(':id')
   async deactivateEmpleado(
     @Param('id', ParseIntPipe) id: number
   ) {

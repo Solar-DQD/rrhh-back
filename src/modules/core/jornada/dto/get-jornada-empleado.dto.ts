@@ -1,15 +1,15 @@
-import { IsNumber, Min, Max, IsPositive, IsBoolean } from 'class-validator';
+import { IsNumber, Min, Max, IsPositive, IsBoolean, IsOptional } from 'class-validator';
 import { Transform, Type } from 'class-transformer';
 
 export type GetJornadasByEmpleadoDto = {
     page: number;
     limit: number;
     id_empleado: number;
-    id_mes: number;
-    quincena: number;
-    id_tipoausencia: number;
-    incompletas: boolean;
-    ausencias: boolean;
+    id_mes?: number;
+    quincena?: number;
+    id_tipoausencia?: number;
+    incompletas?: boolean;
+    ausencias?: boolean;
 };
 
 export class GetJornadasByEmpleadoQueryDto {
@@ -20,33 +20,38 @@ export class GetJornadasByEmpleadoQueryDto {
 
     @Type(() => Number)
     @IsNumber()
-    @IsPositive()
+    
     @Min(0)
     @Max(100)
     limit: number;
 
     @Type(() => Number)
     @IsNumber()
-    @IsPositive()
-    id_mes: number;
+    
+    @IsOptional()
+    id_mes?: number;
 
     @Type(() => Number)
     @IsNumber()
-    @IsPositive()
-    quincena: number;
+    
+    @IsOptional()
+    quincena?: number;
 
     @Type(() => Number)
     @IsNumber()
-    @IsPositive()
-    id_tipoausencia: number;
+    
+    @IsOptional()
+    id_tipoausencia?: number;
 
     @Transform(({ value }) => value === 'true')
     @IsBoolean()
-    incompletas: boolean;
+    @IsOptional()
+    incompletas?: boolean;
 
     @Transform(({ value }) => value === 'true')
     @IsBoolean()
-    ausencias: boolean;
+    @IsOptional()
+    ausencias?: boolean;
 };
 
 export type JornadaItemDto = {

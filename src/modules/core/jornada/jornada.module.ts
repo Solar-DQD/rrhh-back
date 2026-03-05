@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { JornadaService } from './jornada.service';
 import { JornadaController } from './jornada.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -24,7 +24,7 @@ import { ObservacionModule } from '../observacion/observacion.module';
     AñoModule,
     MesModule,
     QuincenaModule,
-    EmpleadoModule,
+    forwardRef(() => EmpleadoModule),
     AusenciaModule,
     ObservacionModule
   ],

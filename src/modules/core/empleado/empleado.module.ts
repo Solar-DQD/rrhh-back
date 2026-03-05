@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { EmpleadoService } from './empleado.service';
 import { EmpleadoController } from './empleado.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -16,7 +16,7 @@ import { JornadaModule } from '../jornada/jornada.module';
     ModalidadValidacionModule,
     EstadoEmpleadoModule,
     ObservacionModule,
-    JornadaModule
+    forwardRef(() => JornadaModule)
   ],
   controllers: [EmpleadoController],
   providers: [EmpleadoService],

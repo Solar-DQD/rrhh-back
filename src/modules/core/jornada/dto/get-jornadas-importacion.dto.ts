@@ -15,7 +15,7 @@ export class GetJornadasByImportacionQueryDto {
 
     @Type(() => Number)
     @IsNumber()
-    @IsPositive()
+    
     @Min(0)
     @Max(100)
     limit: number;

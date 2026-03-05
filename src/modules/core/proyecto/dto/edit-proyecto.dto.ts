@@ -21,6 +21,6 @@ export class EditProyectoBodyDto {
     
     @Type(() => Number)
     @IsNumber()
-    @IsPositive()
+    
     id_modalidadtrabajo: number;
 }

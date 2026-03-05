@@ -15,6 +15,6 @@ export class EditControlBodyDto {
 
     @Type(() => Number)
     @IsNumber()
-    @IsPositive()
+    
     id_proyecto: number;
 };

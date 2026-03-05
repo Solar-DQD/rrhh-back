@@ -9,7 +9,7 @@ import { AccesosReturn } from './dto/get-accesos.dto';
 @Injectable()
 export class RegistrosAccesoService {
     constructor(
-        @InjectRepository(RegistroAcceso, 'msslq')
+        @InjectRepository(RegistroAcceso, 'mssql')
         private readonly registrosAccesoRepository: Repository<RegistroAcceso>
     ) { }
 

@@ -1,4 +1,4 @@
-import { Type } from "class-transformer";
+import { Transform } from "class-transformer";
 import { IsNumber } from "class-validator";
 
 export type ImportJornadasProSoftDto = {
@@ -9,11 +9,11 @@ export type ImportJornadasProSoftDto = {
 };
 
 export class ImportJornadasProSoftBodyDto {
-    @Type(() => Number)
+    @Transform(({ value }) => parseInt(value, 10))
     @IsNumber()
     id_tipojornada: number;
 
-    @Type(() => Number)
+    @Transform(({ value }) => parseInt(value, 10)) 
     @IsNumber()
     id_proyecto: number;
 };

@@ -36,7 +36,7 @@ export class EmpleadoService {
             .leftJoin('e.modalidadvalidacion', 'mv')
             .leftJoin('e.tipoempleado', 'te')
 
-        if (params.id_tipoempleado !== 0) {
+        if (params.id_tipoempleado !== undefined) {
             baseQuery.andWhere('e.id_tipoempleado = :id_tipoempleado', { id_tipoempleado: params.id_tipoempleado });
         };
 
@@ -49,29 +49,29 @@ export class EmpleadoService {
                     .andWhere('a.id_tipoausencia = :id_tipoausencia', { id_tipoausencia: params.id_tipoausencia });
             };
 
-            if (params.id_mes !== 0) {
+            if (params.id_mes !== undefined) {
                 baseQuery.andWhere('ja.id_mes = :id_mes', { id_mes: params.id_mes });
             };
 
-            if (params.quincena !== 0) {
+            if (params.quincena !== undefined) {
                 baseQuery.innerJoin('quincena', 'q', 'ja.id_quincena = q.id')
                     .andWhere('q.quincena = :quincena', { quincena: params.quincena });
             };
         };
 
-        if (params.id_proyecto !== 0) {
+        if (params.id_proyecto !== undefined) {
             baseQuery.andWhere('e.id_proyecto = :id_proyecto', { id_proyecto: params.id_proyecto });
         };
 
-        if (params.nombre !== '') {
+        if (params.nombre !== undefined) {
             baseQuery.andWhere('unaccent(e.nombre) ILIKE unaccent(:nombre)', { nombre: `%${params.nombre}%` });
         };
 
-        if (params.legajo !== 0) {
+        if (params.legajo !== undefined) {
             baseQuery.andWhere('CAST(e.legajo AS TEXT) LIKE :legajo', { legajo: `%${params.legajo}%` });
         }
 
-        if (params.manual === true) {
+        if (params.manual) {
             baseQuery.innerJoin('jornada', 'jm', 'jm.id_empleado = e.id')
                 .innerJoin('fuentemarca', 'fm', 'jm.id_fuentemarca = fm.id')
                 .andWhere('fm.nombre = :fuentemarca', { fuentemarca: 'Manual' });

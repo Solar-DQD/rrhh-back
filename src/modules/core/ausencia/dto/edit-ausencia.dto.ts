@@ -9,6 +9,6 @@ export type EditAusenciaDto = {
 export class EditAusenciaBodyDto {
     @Type(() => Number)
     @IsNumber()
-    @IsPositive()
+    
     id_tipoausencia: number;
 };

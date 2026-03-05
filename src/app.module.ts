@@ -59,23 +59,23 @@ import { ExportarModule } from './modules/features/exportar/exportar.module';
         database: configService.get('PSQL_DB_DATABASE'),
         entities: [__dirname + '/modules/core/**/*.entity{.ts,.js}'],
         synchronize: false,
-        logging: configService.get('NODE_ENV') === 'development',
+        logging: false,
       })
     }),
     TypeOrmModule.forRootAsync({
-      name: 'sqlserver',
+      name: 'mssql',
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
         type: 'mssql',
         host: configService.get('MSSQL_DB_HOST'),
-        port: configService.get('MSSQL_DB_PORT'),
+        port: parseInt(configService.get('MSSQL_DB_PORT') || '1433', 10),
         username: configService.get('MSSQL_DB_USERNAME'),
         password: configService.get('MSSQL_DB_PASSWORD'),
         database: configService.get('MSSQL_DB_DATABASE'),
         entities: [__dirname + '/modules/mssql/**/*.entity{.ts,.js}'],
         synchronize: false,
-        logging: configService.get('NODE_ENV') === 'development',
+        logging: false,
         options: {
           encrypt: true,
           trustServerCertificate: true,

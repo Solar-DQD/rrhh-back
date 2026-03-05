@@ -8,7 +8,7 @@ import { GetNominaActivaByProyectoDto, NominaActivaByProyectoResponseDto } from 
 @Injectable()
 export class NominaService {
     constructor(
-        @InjectRepository(Nomina, 'msslq')
+        @InjectRepository(Nomina, 'mssql')
         private readonly nominaRepository: Repository<Nomina>
     ) { }
 

@@ -1,11 +1,11 @@
-import { IsNumber, Min, Max, IsPositive } from 'class-validator';
+import { IsNumber, Min, Max, IsPositive, IsOptional } from 'class-validator';
 import { Type } from 'class-transformer';
 
 export type GetObservacionesByEmpleadoDto = {
     page: number;
     limit: number;
-    quincena: number;
-    mes: number;
+    quincena?: number;
+    id_mes: number;
     id_empleado: number;
 };
 
@@ -17,22 +17,23 @@ export class GetObservacionesByEmpleadoBodyDto {
 
     @Type(() => Number)
     @IsNumber()
-    @IsPositive()
+    
     @Min(0)
     @Max(100)
     limit: number;
 
     @Type(() => Number)
     @IsNumber()
-    @IsPositive()
+    
     @Min(0)
     @Max(2)
-    quincena: number;
+    @IsOptional()
+    quincena?: number;
 
     @Type(() => Number)
     @IsNumber()
-    @IsPositive()
-    mes: number;
+    
+    id_mes: number;
 };
 
 export type ObservacionItemDto = {

@@ -54,11 +54,11 @@ export class JornadaService {
             .leftJoin('observacion', 'o', 'o.id_jornada = j.id')
             .where('j.id_empleado = :id_empleado', { id_empleado: params.id_empleado });
 
-        if (params.id_mes !== 0) {
+        if (params.id_mes !== undefined) {
             baseQuery.andWhere('j.id_mes = :id_mes', { id_mes: params.id_mes });
         };
 
-        if (params.quincena !== 0) {
+        if (params.quincena !== undefined) {
             baseQuery.innerJoin('quincena', 'q', 'j.id_quincena = q.id')
                 .andWhere('q.quincena = :quincena', { quincena: params.quincena });
         };
@@ -71,7 +71,7 @@ export class JornadaService {
             baseQuery.andWhere('j.id_ausencia IS NOT NULL');
         };
 
-        if (params.id_tipoausencia !== 0) {
+        if (params.id_tipoausencia !== undefined) {
             baseQuery.andWhere('a.id_tipoausencia = :id_tipoausencia', { id_tipoausencia: params.id_tipoausencia });
         };
 
@@ -174,13 +174,13 @@ export class JornadaService {
         let mesIndex;
         let quincenaIndex;
 
-        if (params.id_mes !== 0) {
+        if (params.id_mes !== undefined) {
             filtro += ` AND j.id_mes = $${valoresBase.length + 1}`;
             mesIndex = valoresBase.length + 1;
             valoresBase.push(params.id_mes);
         };
 
-        if (params.quincena !== 0) {
+        if (params.quincena !== undefined) {
             join += ` JOIN quincena q ON j.id_quincena = q.id`;
             joinSon += ` JOIN quincena q2 ON j2.id_quincena = q2.id`;
             filtro += ` AND q.quincena = $${valoresBase.length + 1}`;
@@ -188,7 +188,7 @@ export class JornadaService {
             valoresBase.push(params.quincena);
         };
 
-        if (params.id_tipoempleado !== 0) {
+        if (params.id_tipoempleado !== undefined) {
             filtro += ` AND e.id_tipoempleado = $${valoresBase.length + 1}`;
             valoresBase.push(params.id_tipoempleado);
         };
@@ -196,17 +196,17 @@ export class JornadaService {
         if (params.ids_proyecto && params.ids_proyecto.length !== 0) {
             let proyectoFiltro = `AND EXISTS (SELECT 1 FROM "jornada" jp`;
 
-            if (params.quincena !== 0) {
+            if (params.quincena !== undefined) {
                 proyectoFiltro += ` JOIN quincena qp ON jp.id_quincena = qp.id`;
             };
 
             proyectoFiltro += ` WHERE jp.id_empleado = j.id_empleado AND jp.id_proyecto = ANY($${valoresBase.length + 1})`;
 
-            if (params.id_mes !== 0) {
+            if (params.id_mes !== undefined) {
                 proyectoFiltro += ` AND jp.id_mes = $${mesIndex}`;
             };
 
-            if (params.quincena !== 0) {
+            if (params.quincena !== undefined) {
                 proyectoFiltro += ` AND qp.quincena = $${quincenaIndex}`;
             };
 

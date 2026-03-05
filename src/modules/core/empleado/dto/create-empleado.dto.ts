@@ -1,4 +1,4 @@
-import { IsNumber,IsPositive, IsString, IsNotEmpty } from 'class-validator';
+import { IsNumber, IsString, IsNotEmpty, IsOptional } from 'class-validator';
 import { Type } from 'class-transformer';
 
 export class CreateEmpleadoDto {
@@ -8,6 +8,7 @@ export class CreateEmpleadoDto {
 
     @Type(() => Number)
     @IsNumber()
+    @IsOptional()
     legajo?: number;
 
     @IsString()
@@ -16,11 +17,11 @@ export class CreateEmpleadoDto {
 
     @Type(() => Number)
     @IsNumber()
-    @IsPositive()
-    id_proyecto: number;
+    @IsOptional()
+    id_proyecto?: number;
 
     @Type(() => Number)
     @IsNumber()
-    @IsPositive()
+    @IsOptional()
     id_tipoempleado?: number;
 };

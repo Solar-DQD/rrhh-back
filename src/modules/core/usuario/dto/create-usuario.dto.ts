@@ -19,6 +19,6 @@ export class CreateUsuarioDto {
 
     @Type(() => Number)
     @IsNumber()
-    @IsPositive()
+    
     id_tipousuario: number;
 };

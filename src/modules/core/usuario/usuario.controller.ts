@@ -1,14 +1,18 @@
-import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, ParseIntPipe, Patch, Post, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, ParseIntPipe, Patch, Post, Query, UseGuards } from '@nestjs/common';
 import { UsuarioService } from './usuario.service';
 import { GetUsuarioByEmailDto } from './dto/get-usuario-correo.dto';
 import { GetUsuariosDto } from './dto/get-usuario.dto';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
 import { EditUsuarioBodyDto } from './dto/edit-usuario.dto';
+import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard';
+import { Public } from 'src/common/decorators/public.decorator';
 
 @Controller('usuario')
+@UseGuards(JwtAuthGuard)
 export class UsuarioController {
   constructor(private readonly usuarioService: UsuarioService) {}
 
+  @Public()
   @Get('/login')
   async getUsuarioByEmail(@Query() query: GetUsuarioByEmailDto) {
     return this.usuarioService.getUsuarioByEmail(query);

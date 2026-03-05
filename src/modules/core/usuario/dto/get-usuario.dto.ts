@@ -1,4 +1,4 @@
-import { IsNumber, Min, Max, IsPositive, IsNotEmpty, IsString, MinLength, MaxLength } from 'class-validator';
+import { IsNumber, Min, Max, IsPositive, IsNotEmpty, IsString, MinLength, MaxLength, IsOptional } from 'class-validator';
 import { Type } from 'class-transformer';
 
 export class GetUsuariosDto {
@@ -9,7 +9,7 @@ export class GetUsuariosDto {
 
     @Type(() => Number)
     @IsNumber()
-    @IsPositive()
+    
     @Min(1)
     @Max(100)
     limit: number;
@@ -30,7 +30,8 @@ export class GetUsuariosDto {
 
     @Type(() => Number)
     @IsNumber()
-    id_tipousuario: number;
+    @IsOptional()
+    id_tipousuario?: number;
 };
 
 export type UsuarioItemDto = {

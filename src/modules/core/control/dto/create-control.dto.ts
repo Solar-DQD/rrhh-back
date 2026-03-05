@@ -9,6 +9,6 @@ export class CreateControlDto {
 
     @Type(() => Number)
     @IsNumber()
-    @IsPositive()
+    
     id_proyecto: number;
 };

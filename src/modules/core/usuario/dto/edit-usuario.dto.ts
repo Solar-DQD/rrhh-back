@@ -21,6 +21,6 @@ export class EditUsuarioBodyDto {
 
     @Type(() => Number)
     @IsNumber()
-    @IsPositive()
+    
     id_tipousuario: number;
 };
