@@ -27,7 +27,8 @@ export class ImportacionService {
             .innerJoin('i.usuario', 'u')
             .innerJoin('i.proyecto', 'p')
             .take(params.limit)
-            .skip(params.page * params.limit);
+            .skip(params.page * params.limit)
+            .orderBy('i.fecha', 'DESC');
 
         if (params.incompletas) {
             query.andWhere('i.id_estadoimportacion != :id_estadoimportacion', { id_estadoimportacion: id_estadoimportacion });

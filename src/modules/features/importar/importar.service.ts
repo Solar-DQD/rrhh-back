@@ -128,6 +128,7 @@ export class ImportarService {
 
             const accesosProcesados: Acceso[] = []
             let validacionManual = false;
+            let incompleto = false;
 
             if (accesosFiltrados.length === 0) return;
 
@@ -144,7 +145,7 @@ export class ImportarService {
 
                     accesosProcesados.push({
                         fecha: fecha.toISOString().split('T')[0],
-                        hora: `${hora.getUTCHours().toString().padStart(2, '0')}:${hora.getUTCMinutes().toString().padStart(2, '0')}`,
+                        hora: `${hora.getHours().toString().padStart(2, '0')}:${hora.getMinutes().toString().padStart(2, '0')}`,
                         tipo: 'ENTRADA'
                     });
 
@@ -155,9 +156,10 @@ export class ImportarService {
                     });
 
                     validacionManual = true;
+                    incompleto = true;
                 } else {
-                    const entrada = accesosFiltrados[0];
-                    const salida = accesosFiltrados[accesosFiltrados.length - 1];
+                    const entrada = accesosOrdenados[0];
+                    const salida = accesosOrdenados[accesosOrdenados.length - 1];
 
                     const fechaEntrada = new Date(entrada.fecha_acceso);
                     const horaEntrada = new Date(entrada.hora_acceso);
@@ -167,12 +169,12 @@ export class ImportarService {
 
                     accesosProcesados.push({
                         fecha: fechaEntrada.toISOString().split('T')[0],
-                        hora: `${horaEntrada.getUTCHours().toString().padStart(2, '0')}:${horaEntrada.getUTCMinutes().toString().padStart(2, '0')}`,
+                        hora: `${horaEntrada.getHours().toString().padStart(2, '0')}:${horaEntrada.getMinutes().toString().padStart(2, '0')}`,
                         tipo: 'ENTRADA'
                     });
                     accesosProcesados.push({
                         fecha: fechaSalida.toISOString().split('T')[0],
-                        hora: `${horaSalida.getUTCHours().toString().padStart(2, '0')}:${horaSalida.getUTCMinutes().toString().padStart(2, '0')}`,
+                        hora: `${horaSalida.getHours().toString().padStart(2, '0')}:${horaSalida.getMinutes().toString().padStart(2, '0')}`,
                         tipo: 'SALIDA'
                     });
 
@@ -211,6 +213,7 @@ export class ImportarService {
 
                 if (accesosFiltrados.length % 2 !== 0) {
                     validacionManual = true;
+                    incompleto = true;
                 };
             };
 
@@ -228,6 +231,7 @@ export class ImportarService {
                         total += (fechaHoraSalida.getTime() - fechaHoraEntrada.getTime()) / (1000 * 60 * 60);
                     } else {
                         validacionManual = true;
+                        incompleto = true;
 
                         break;
                     };
@@ -241,7 +245,8 @@ export class ImportarService {
             empleadosAccesos.set(dni, {
                 nombre: accesosFiltrados[0].nombre,
                 accesos: accesosProcesados,
-                validacionManual
+                validacionManual,
+                incompleto
             });
         });
 
@@ -293,6 +298,7 @@ export class ImportarService {
 
             const accesosProcesados: Acceso[] = [];
             let validacionManual = empleadosModalidadValidacionManual.has(dni);
+            let incompleto = false;
 
             if (modalidad_proyecto === modalidad_corrido) {
                 if (accesosFiltrados.length === 1) {
@@ -310,6 +316,7 @@ export class ImportarService {
                     });
 
                     validacionManual = true;
+                    incompleto = true;
                 } else {
                     const entrada = accesosFiltrados[0];
                     const salida = accesosFiltrados[accesosFiltrados.length - 1];
@@ -338,6 +345,7 @@ export class ImportarService {
                 };
                 if (accesosFiltrados.length % 2 !== 0) {
                     validacionManual = true;
+                    incompleto = true;
                 };
             };
 
@@ -354,7 +362,7 @@ export class ImportarService {
                         total += (fechaHoraSalida.getTime() - fechaHoraEntrada.getTime()) / (1000 * 60 * 60);
                     } else {
                         validacionManual = true;
-
+                        incompleto = true;
                         break;
                     };
                 };
@@ -367,7 +375,8 @@ export class ImportarService {
             empleadosAccesos.set(dni, {
                 nombre: data.nombre,
                 accesos: accesosProcesados,
-                validacionManual
+                validacionManual,
+                incompleto
             });
         };
 
@@ -395,6 +404,7 @@ export class ImportarService {
 
         const id_estadojornadavalida = await this.estadoJornadaService.getEstadoJornadaValida();
         const id_estadojornadarevision = await this.estadoJornadaService.getEstadoJornadaRevision();
+        const id_estadojornadasinvalidar = await this.estadoJornadaService.getEstadoJornadaSinValidar();
         const id_fuentemarca = await this.fuenteMarcaService.getFuenteMarcaControl();
 
         for (const [dni, empleadoAccesos] of params.empleadosAccesos.entries()) {
@@ -480,6 +490,16 @@ export class ImportarService {
                             const id_ausencia = await this.jornadaService.getJornadaAusenciaByEmpleado({ id_empleado, fecha });
 
                             await this.ausenciaService.deleteAusencia({ id: id_ausencia });
+                        };
+
+                        let id_estadojornada;
+                        
+                        if (!empleadoAccesos.validacionManual) {
+                            id_estadojornada = id_estadojornadavalida;
+                        } else if (empleadoAccesos.incompleto) {
+                            id_estadojornada = id_estadojornadarevision;
+                        } else {
+                            id_estadojornada = id_estadojornadasinvalidar;
                         };
 
                         await this.jornadaService.createJornada({

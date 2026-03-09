@@ -5,7 +5,7 @@ export type GetObservacionesByEmpleadoDto = {
     page: number;
     limit: number;
     quincena?: number;
-    id_mes: number;
+    id_mes?: number;
     id_empleado: number;
 };
 
@@ -17,11 +17,9 @@ export class GetObservacionesByEmpleadoBodyDto {
 
     @Type(() => Number)
     @IsNumber()
-    
     @Min(0)
     @Max(100)
     limit: number;
-
     @Type(() => Number)
     @IsNumber()
     
@@ -32,8 +30,8 @@ export class GetObservacionesByEmpleadoBodyDto {
 
     @Type(() => Number)
     @IsNumber()
-    
-    id_mes: number;
+    @IsOptional()
+    id_mes?: number;
 };
 
 export type ObservacionItemDto = {

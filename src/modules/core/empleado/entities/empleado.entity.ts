@@ -43,7 +43,7 @@ export class Empleado {
     estadoempleado: EstadoEmpleado;
 
     @ManyToOne(() => TipoEmpleado)
-    @JoinColumn({ name: 'id_usuariocreacion' })
+    @JoinColumn({ name: 'id_tipoempleado' })
     tipoempleado: TipoEmpleado;
 
     @Column({ select: false, insert: false, update: false, nullable: true })

@@ -63,15 +63,11 @@ export class JornadaService {
                 .andWhere('q.quincena = :quincena', { quincena: params.quincena });
         };
 
-        if (params.incompletas) {
-            baseQuery.andWhere('(j.entrada IS NULL OR j.salida IS NULL)');
-        };
-
         if (params.ausencias) {
             baseQuery.andWhere('j.id_ausencia IS NOT NULL');
         };
 
-        if (params.id_tipoausencia !== undefined) {
+        if (params.id_tipoausencia !== undefined && params.id_tipoausencia !== 0) {
             baseQuery.andWhere('a.id_tipoausencia = :id_tipoausencia', { id_tipoausencia: params.id_tipoausencia });
         };
 
@@ -94,7 +90,7 @@ export class JornadaService {
                 'tj.nombre AS tipojornada',
                 'ta.nombre AS tipoausencia',
                 'COALESCE(fm.nombre = :fuentemarca, false) AS es_manual',
-                'array_agg(DISTINCT o.texto) FILTER (WHERE o.texto IS NOT NULL) AS observaciones',
+                "array_agg(DISTINCT jsonb_build_object('id', o.id, 'texto', o.texto)) FILTER (WHERE o.texto IS NOT NULL) AS observaciones",
             ])
             .setParameter('fuentemarca', 'Manual')
             .groupBy('j.id')
@@ -147,11 +143,11 @@ export class JornadaService {
             .leftJoin('j.ausencia', 'a')
             .where('j.id_empleado = :id_empleado', { id_empleado: params.id_empleado });
 
-        if (params.id_mes !== 0) {
+        if (params.id_mes !== undefined) {
             query.andWhere('j.id_mes = :id_mes', { id_mes: params.id_mes });
         };
 
-        if (params.quincena !== 0) {
+        if (params.quincena !== undefined) {
             query.innerJoin('quincena', 'q', 'j.id_quincena = q.id')
                 .andWhere('q.quincena = :quincena', { quincena: params.quincena });
         };
@@ -168,7 +164,7 @@ export class JornadaService {
         const valoresBase: any = [];
 
         let join = `JOIN empleado e ON j.id_empleado = e.id`;
-        let joinSon = '';
+        let joinSon = 'JOIN empleado e2 ON j2.id_empleado = e2.id';
         let filtro = `WHERE 1=1`;
 
         let mesIndex;
@@ -216,84 +212,86 @@ export class JornadaService {
         };
 
         const sql = `
-            WITH jornadas_sumadas AS (
-                SELECT
-                    j.id_empleado,
-                    e.legajo,
-                    e.nombre AS empleado,
-                    SUM(CAST(j.total AS DECIMAL)) AS suma_total,
-                    SUM(CAST(j.total_normal AS DECIMAL)) AS suma_total_normal,
-                    SUM(CAST(j.total_50 AS DECIMAL)) AS suma_total_50,
-                    SUM(CAST(j.total_100 AS DECIMAL)) AS suma_total_100,
-                    SUM(CAST(j.total_feriado AS DECIMAL)) AS suma_total_feriado,
-                    SUM(CAST(j.total_nocturno AS DECIMAL)) AS suma_total_nocturno
-                FROM "jornada" j
-                ${join}
-                ${filtro}
-                GROUP BY j.id_empleado, e.legajo, e.nombre
-            ),
-            ausencias_conteo AS (
-                SELECT
-                    j2.id_empleado,
-                    ta.id AS id_tipoausencia,
-                    ta.nombre AS nombre_tipoausencia,
-                    COUNT(*) AS cantidad
-                FROM "jornada" j2
-                ${joinSon}
-                LEFT JOIN "ausencia" a ON j2.id_ausencia = a.id
-                LEFT JOIN "tipoausencia" ta ON a.id_tipoausencia = ta.id
-                ${filtro.replace(/\bj\./g, 'j2.').replace(/\bq\./g, 'q2.')}
-                AND j2.id_ausencia IS NOT NULL
-                GROUP BY j2.id_empleado, ta.id, ta.nombre
-            ),
-            observaciones_agrupadas AS (
-                SELECT
-                    j3.id_empleado,
-                    j3.fecha,
-                    o.texto
-                FROM "jornada" j3
-                ${join.replace(/\bj\./g, 'j3.')}
-                ${params.quincena !== 0 ? 'JOIN quincena q3 ON j3.id_quincena = q3.id' : ''}
-                JOIN "jornadaobservacion" jo ON j3.id = jo.id_jornada
-                JOIN "observacion" o ON jo.id_observacion = o.id
-                ${filtro.replace(/\bj\./g, 'j3.').replace(/\bq\./g, 'q3.')}
-            )
+        WITH jornadas_sumadas AS (
             SELECT
-                js.legajo,
-                js.empleado,
-                js.suma_total,
-                js.suma_total_normal,
-                js.suma_total_50,
-                js.suma_total_100,
-                js.suma_total_feriado,
-                js.suma_total_nocturno,
-                COALESCE(
-                    json_agg(
-                        json_build_object(
-                            'id', ac.id_tipoausencia,
-                            'nombre', ac.nombre_tipoausencia,
-                            'cantidad', ac.cantidad
-                        )
-                    ) FILTER (WHERE ac.id_tipoausencia IS NOT NULL),
-                    '[]'::json
-                ) AS ausencias,
-                COALESCE(
-                    (
-                        SELECT json_agg(
-                            json_build_object('fecha', oa.fecha, 'texto', oa.texto)
-                            ORDER BY oa.fecha DESC
-                        )
-                        FROM observaciones_agrupadas oa
-                        WHERE oa.id_empleado = js.id_empleado
-                    ),
-                    '[]'::json
-                ) AS observaciones
-            FROM jornadas_sumadas js
-            LEFT JOIN ausencias_conteo ac ON js.id_empleado = ac.id_empleado
-            GROUP BY js.id_empleado, js.legajo, js.empleado, js.suma_total, js.suma_total_normal,
-                    js.suma_total_50, js.suma_total_100, js.suma_total_feriado, js.suma_total_nocturno
-            ORDER BY js.empleado
-        `;
+                j.id_empleado,
+                e.legajo,
+                e.nombre AS empleado,
+                SUM(CAST(j.total AS DECIMAL)) AS suma_total,
+                SUM(CAST(j.total_normal AS DECIMAL)) AS suma_total_normal,
+                SUM(CAST(j.total_50 AS DECIMAL)) AS suma_total_50,
+                SUM(CAST(j.total_100 AS DECIMAL)) AS suma_total_100,
+                SUM(CAST(j.total_feriado AS DECIMAL)) AS suma_total_feriado,
+                SUM(CAST(j.total_nocturno AS DECIMAL)) AS suma_total_nocturno,
+                STRING_AGG(DISTINCT p.nombre, ', ' ORDER BY p.nombre) AS proyectos
+            FROM "jornada" j
+            ${join}
+            LEFT JOIN "proyecto" p ON j.id_proyecto = p.id
+            ${filtro}
+            GROUP BY j.id_empleado, e.legajo, e.nombre
+        ),
+        ausencias_conteo AS (
+            SELECT
+                j2.id_empleado,
+                ta.id AS id_tipoausencia,
+                ta.nombre AS nombre_tipoausencia,
+                COUNT(*) AS cantidad
+            FROM "jornada" j2
+            ${joinSon}
+            LEFT JOIN "ausencia" a ON j2.id_ausencia = a.id
+            LEFT JOIN "tipoausencia" ta ON a.id_tipoausencia = ta.id
+            ${filtro.replace(/\bj\./g, 'j2.').replace(/\bq\./g, 'q2.').replace(/\be\./g, 'e2.')}
+            AND j2.id_ausencia IS NOT NULL
+            GROUP BY j2.id_empleado, ta.id, ta.nombre
+        ),
+        observaciones_agrupadas AS (
+            SELECT
+                j3.id_empleado,
+                j3.fecha,
+                o.texto
+            FROM "jornada" j3
+            ${join.replace(/\bj\./g, 'j3.')}
+            ${params.quincena !== undefined ? 'JOIN quincena q3 ON j3.id_quincena = q3.id' : ''}
+            JOIN "observacion" o ON j3.id = o.id_jornada
+            ${filtro.replace(/\bj\./g, 'j3.').replace(/\bq\./g, 'q3.')}
+        )
+        SELECT
+            js.legajo,
+            js.empleado,
+            js.proyectos,
+            js.suma_total,
+            js.suma_total_normal,
+            js.suma_total_50,
+            js.suma_total_100,
+            js.suma_total_feriado,
+            js.suma_total_nocturno,
+            COALESCE(
+                json_agg(
+                    json_build_object(
+                        'id', ac.id_tipoausencia,
+                        'nombre', ac.nombre_tipoausencia,
+                        'cantidad', ac.cantidad
+                    )
+                ) FILTER (WHERE ac.id_tipoausencia IS NOT NULL),
+                '[]'::json
+            ) AS ausencias,
+            COALESCE(
+                (
+                    SELECT json_agg(
+                        json_build_object('fecha', oa.fecha, 'texto', oa.texto)
+                        ORDER BY oa.fecha DESC
+                    )
+                    FROM observaciones_agrupadas oa
+                    WHERE oa.id_empleado = js.id_empleado
+                ),
+                '[]'::json
+            ) AS observaciones
+        FROM jornadas_sumadas js
+        LEFT JOIN ausencias_conteo ac ON js.id_empleado = ac.id_empleado
+        GROUP BY js.id_empleado, js.legajo, js.empleado, js.proyectos, js.suma_total, js.suma_total_normal,
+                js.suma_total_50, js.suma_total_100, js.suma_total_feriado, js.suma_total_nocturno
+        ORDER BY js.empleado
+    `;
 
         return this.jornadaRepository.query(sql, valoresBase);
     };
@@ -310,7 +308,7 @@ export class JornadaService {
             .leftJoin('j.ausencia', 'a')
             .leftJoin('tipoausencia', 'ta', 'a.id_tipoausencia = ta.id')
             .where('j.id_importacion = :id_importacion', { id_importacion: params.id_importacion })
-            .andWhere('j.id_estadojornada = :id_estadojornada', { id_estadojornada: id_estadojornada });
+            .andWhere('j.id_estadojornada != :id_estadojornada', { id_estadojornada: id_estadojornada });
 
         const totalJornadas = await baseQuery
             .clone()
@@ -499,7 +497,8 @@ export class JornadaService {
         let id_jornada;
         let id_jornadaTarde;
 
-        if (params.id_tipoausencia === 0) {
+        if (params.id_tipoausencia === undefined) {
+
             id_jornada = await this.createJornada({
                 fecha: fecha,
                 entrada: params.entrada,
@@ -515,6 +514,7 @@ export class JornadaService {
             });
 
             if (params.entradaTarde !== '' && params.salidaTarde !== '') {
+
                 id_jornadaTarde = await this.createJornada({
                     fecha: fecha,
                     entrada: params.entradaTarde,
@@ -530,6 +530,7 @@ export class JornadaService {
                 });
             };
         } else {
+
             const id_ausencia = await this.ausenciaService.createAusencia({
                 id_empleado: params.id_empleado,
                 id_tipoausencia: params.id_tipoausencia

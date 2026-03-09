@@ -41,8 +41,8 @@ export class ControlService {
         if (this.proyectosCache) return this.proyectosCache;
 
         const controles = await this.controlRepository
-            .createQueryBuilder()
-            .select('id_proyecto')
+            .createQueryBuilder('c')
+            .select('c.id_proyecto')
             .distinct(true)
             .getMany();
 

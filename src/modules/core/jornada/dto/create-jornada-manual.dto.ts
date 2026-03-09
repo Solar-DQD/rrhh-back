@@ -1,5 +1,5 @@
 import { Type } from "class-transformer";
-import { IsNotEmpty, IsNumber, IsPositive, IsString } from "class-validator";
+import { IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
 
 export class CreateJornadaManualBodyDto {
     @IsString()
@@ -7,23 +7,22 @@ export class CreateJornadaManualBodyDto {
     fecha: string;
 
     @IsString()
-    @IsNotEmpty()
-    entrada: string;
+    @IsOptional()
+    entrada?: string;
 
     @IsString()
-    @IsNotEmpty()
-    salida: string;
+    @IsOptional()
+    salida?: string;
 
     @IsString()
-    @IsNotEmpty()
-    entradaTarde: string;
+    @IsOptional()
+    entradaTarde?: string;
 
     @IsString()
-    @IsNotEmpty()
-    salidaTarde: string;
+    @IsOptional()
+    salidaTarde?: string;
 
     @IsString()
-    @IsNotEmpty()
     observacion: string;
 
     @Type(() => Number)
@@ -32,7 +31,8 @@ export class CreateJornadaManualBodyDto {
 
     @Type(() => Number)
     @IsNumber()
-    id_tipoausencia: number;
+    @IsOptional()
+    id_tipoausencia?: number;
 
     @Type(() => Number)
     @IsNumber()
@@ -41,13 +41,13 @@ export class CreateJornadaManualBodyDto {
 
 export type CreateJornadaManualDto = {
     fecha: string;
-    entrada: string;
-    salida: string;
-    entradaTarde: string;
-    salidaTarde: string;
-    observacion: string;
+    entrada?: string;
+    salida?: string;
+    entradaTarde?: string;
+    salidaTarde?: string;
+    observacion?: string;
     id_empleado: number;
-    id_tipoausencia: number;
+    id_tipoausencia?: number;
     id_tipojornada: number;
     id_usuariocreacion: number;
 };

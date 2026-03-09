@@ -82,14 +82,14 @@ export class ProyectoService {
     };
 
     //Get proyecto nomina
-    async getProyectoNomina(params: GetProyectoByIdDto): Promise<string> {
+    async getProyectoNomina(params: GetProyectoByIdDto): Promise<string | null> {
         const proyecto = await this.proyectoRepository.findOne({
             select: { nomina: true },
             where: { id: params.id }
         });
 
         if (!proyecto) {
-            throw new NotFoundException(`Proyecto with id ${params.id} not found`);
+            return null;
         };
 
         return proyecto.nomina;

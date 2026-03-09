@@ -29,8 +29,10 @@ export class ObservacionService {
             .take(params.limit)
             .skip(params.page * params.limit);
 
-        if (params.id_mes !== 0) {
+        if (params.id_mes !== undefined) {
             query.andWhere('j.id_mes = :mes', { mes: params.id_mes });
+        } else {
+            query.andWhere('j.id_mes = :no_mes', { no_mes: 0 });
         };
 
         if (params.quincena !== undefined) {

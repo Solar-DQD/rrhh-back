@@ -1,22 +1,22 @@
-import { IsNumber, IsPositive } from 'class-validator';
+import { IsNumber, IsOptional, IsPositive } from 'class-validator';
 import { Type } from 'class-transformer';
 
 export type GetResumenByEmpleadoDto = {
     id_empleado: number;
-    id_mes: number;
-    quincena: number;
+    id_mes?: number;
+    quincena?: number;
 };
 
 export class GetResumenByEmpleadoQueryDto {
     @Type(() => Number)
+    @IsOptional()
     @IsNumber()
-    
-    id_mes: number;
+    id_mes?: number;
 
     @Type(() => Number)
     @IsNumber()
-    
-    quincena: number;
+    @IsOptional()
+    quincena?: number;
 };
 
 export type ResumenItemDto = {

@@ -32,7 +32,7 @@ export class RegistrosAccesoService {
             .select('CAST(registros_acceso.id_empleado AS BIGINT)', 'dni')
             .distinct(true)
             .where('registros_acceso.fecha_acceso = :fecha', { fecha: params.fecha })
-            .andWhere('registro_acceso.numero_serie_dispositivo IN (:...dispositivos)', { dispositivos: params.dispositivos })
+            .andWhere('registros_acceso.numero_serie_dispositivo IN (:...dispositivos)', { dispositivos: params.dispositivos })
             .getRawMany();
 
         return accesos;
@@ -40,12 +40,17 @@ export class RegistrosAccesoService {
 
     //Get accesos by fecha and proyecto
     async getAccesos(params: GetAccesosByFechaAndProyectoDto): Promise<AccesosReturn[]> {
-         const accesos = await this.registrosAccesoRepository
+        const accesos = await this.registrosAccesoRepository
             .createQueryBuilder('registros_acceso')
-            .select(['registros_acceso.fecha_acceso', 'registros_acceso.hora_acceso', 'registros_acceso.nombre', 'registros_acceso.fecha_hora_acceso'])
-            .addSelect('CAST(registros_acceso.id_empleado AS BIGINT)', 'dni')
+            .select([
+                'registros_acceso.fecha_acceso AS fecha_acceso',
+                'registros_acceso.hora_acceso AS hora_acceso',
+                'registros_acceso.nombre AS nombre',
+                'registros_acceso.fecha_hora_acceso AS fecha_hora_acceso',
+                'CAST(registros_acceso.id_empleado AS BIGINT) AS dni'
+            ])
             .where('registros_acceso.fecha_acceso = :fecha', { fecha: params.fecha })
-            .andWhere('registro_acceso.numero_serie_dispositivo IN (:...dispositivos)', { dispositivos: params.dispositivos })
+            .andWhere('registros_acceso.numero_serie_dispositivo IN (:...dispositivos)', { dispositivos: params.dispositivos })
             .getRawMany();
 
         return accesos;

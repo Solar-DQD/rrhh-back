@@ -19,6 +19,7 @@ export type ObservacionResumen = {
 export type ResumenesResponseDto = {
     legajo: number;
     empleado: string;
+    proyectos: string;
     suma_total: string;
     suma_total_normal: string;
     suma_total_50: string;

@@ -18,6 +18,7 @@ export type AccesosPair = {
 export type EmpleadoAccesos = {
     nombre: string;
     validacionManual: boolean;
+    incompleto: boolean;
     accesos: Acceso[];
 };
 

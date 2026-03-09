@@ -29,12 +29,12 @@ export class GetEmpleadosDto {
 
     @Type(() => Number)
     @IsNumber()
-    
+    @IsOptional()
     legajo?: number;
 
     @Type(() => Number)
     @IsNumber()
-    
+    @IsOptional()
     id_proyecto?: number;
 
     @Type(() => Number)
@@ -49,7 +49,6 @@ export class GetEmpleadosDto {
 
     @Type(() => Number)
     @IsNumber()
-    
     @IsOptional()
     id_tipoempleado?: number;
 

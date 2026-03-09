@@ -322,6 +322,7 @@ export class ExcelService {
         const columnasBase = [
             { header: 'Legajo', key: 'legajo', width: 15 },
             { header: 'Empleado', key: 'empleado', width: 50 },
+            { header: 'Proyectos', key: 'proyectos', width: 40 }, // Add this
             { header: 'Total Horas', key: 'suma_total', width: 20 },
             { header: 'Horas Normales', key: 'suma_total_normal', width: 20 },
             { header: 'Horas 50%', key: 'suma_total_50', width: 20 },
@@ -342,6 +343,7 @@ export class ExcelService {
             const fila: any = {
                 legajo: r.legajo,
                 empleado: r.empleado,
+                proyectos: r.proyectos || '', // Add this
                 suma_total: parseFloat(r.suma_total.toString()),
                 suma_total_normal: parseFloat(r.suma_total_normal.toString()),
                 suma_total_50: parseFloat(r.suma_total_50.toString()),
@@ -379,7 +381,7 @@ export class ExcelService {
                 };
                 if (colNumber === 1) {
                     cell.alignment = { horizontal: 'center', vertical: 'middle' };
-                } else if (colNumber === 2) {
+                } else if (colNumber === 2 || colNumber === 3) { // Update: both empleado and proyectos left-aligned
                     cell.alignment = { horizontal: 'left', vertical: 'middle' };
                 } else {
                     cell.alignment = { horizontal: 'right', vertical: 'middle' };
@@ -393,6 +395,7 @@ export class ExcelService {
         const filaTotal: any = {
             legajo: '',
             empleado: 'TOTALES:',
+            proyectos: '', // Add this
             ...Object.fromEntries(
                 ['suma_total', 'suma_total_normal', 'suma_total_50', 'suma_total_100', 'suma_total_feriado', 'suma_total_nocturno']
                     .map(k => [k, totales[k]])
@@ -411,10 +414,12 @@ export class ExcelService {
                 bottom: { style: 'double', color: { argb: '000000' } },
                 right: { style: 'thin', color: { argb: '000000' } }
             };
-            if (colNumber === 2) {
+            if (colNumber === 2 || colNumber === 3) { // Update: handle proyectos column
                 cell.alignment = { horizontal: 'right', vertical: 'middle' };
-                cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'E6F3FF' } };
-            } else if (colNumber > 2) {
+                if (colNumber === 2) {
+                    cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'E6F3FF' } };
+                }
+            } else if (colNumber > 3) { // Update: shift index
                 cell.alignment = { horizontal: 'right', vertical: 'middle' };
                 cell.numFmt = colNumber <= numColumnasBase ? '0.00' : '0';
                 cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFFACD' } };

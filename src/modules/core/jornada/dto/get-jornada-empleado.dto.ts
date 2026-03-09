@@ -8,7 +8,6 @@ export type GetJornadasByEmpleadoDto = {
     id_mes?: number;
     quincena?: number;
     id_tipoausencia?: number;
-    incompletas?: boolean;
     ausencias?: boolean;
 };
 
@@ -20,7 +19,6 @@ export class GetJornadasByEmpleadoQueryDto {
 
     @Type(() => Number)
     @IsNumber()
-    
     @Min(0)
     @Max(100)
     limit: number;
@@ -39,19 +37,18 @@ export class GetJornadasByEmpleadoQueryDto {
 
     @Type(() => Number)
     @IsNumber()
-    
     @IsOptional()
     id_tipoausencia?: number;
 
     @Transform(({ value }) => value === 'true')
     @IsBoolean()
     @IsOptional()
-    incompletas?: boolean;
-
-    @Transform(({ value }) => value === 'true')
-    @IsBoolean()
-    @IsOptional()
     ausencias?: boolean;
+};
+
+type observacionItem = {
+    id: number;
+    texto: string;
 };
 
 export type JornadaItemDto = {
@@ -65,7 +62,7 @@ export type JornadaItemDto = {
     tipojornada: string;
     tipoausencia: string;
     es_manual: boolean;
-    observaciones: string[];
+    observaciones: observacionItem[];
 };
 
 export type JornadaResponseDto = {

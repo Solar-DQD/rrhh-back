@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Nomina } from './entities/nomina.entity';
-import { Repository } from 'typeorm';
+import { Brackets, Repository } from 'typeorm';
 import { NominaActivaResponseDto } from './dto/get-nomina-activa.dto';
 import { GetNominaActivaByProyectoDto, NominaActivaByProyectoResponseDto } from './dto/get-nomina-activa-proyecto.dto';
 
@@ -23,8 +23,18 @@ export class NominaService {
             .addSelect('nomina.proyecto', 'proyecto')
             .addSelect('nomina.convenio', 'convenio')
             .distinct(true)
-            .where('nomina.ingreso IS NULL OR GETDATE() >= nomina.ingreso')
-            .andWhere('nomina.egreso IS NULL OR GETDATE() <= nomina.egreso')
+            .where(
+                new Brackets(qb => {
+                    qb.where('nomina.ingreso IS NULL')
+                        .orWhere('GETDATE() >= nomina.ingreso');
+                })
+            )
+            .andWhere(
+                new Brackets(qb => {
+                    qb.where('nomina.egreso IS NULL')
+                        .orWhere('GETDATE() <= nomina.egreso');
+                })
+            )
             .andWhere('nomina.apellido NOT LIKE :apellido', { apellido: '%GARIN ODRIOZOLA%' })
             .getRawMany();
 
@@ -37,11 +47,21 @@ export class NominaService {
             .createQueryBuilder('nomina')
             .select('CAST(nomina.dni AS BIGINT)', 'dni')
             .distinct(true)
-            .where('nomina.ingreso IS NULL OR GETDATE() >= nomina.ingreso')
-            .andWhere('nomina.egreso IS NULL OR GETDATE() <= nomina.egreso')
+            .where(
+                new Brackets(qb => {
+                    qb.where('nomina.ingreso IS NULL')
+                        .orWhere('GETDATE() >= nomina.ingreso');
+                })
+            )
+            .andWhere(
+                new Brackets(qb => {
+                    qb.where('nomina.egreso IS NULL')
+                        .orWhere('GETDATE() <= nomina.egreso');
+                })
+            )
             .andWhere('nomina.proyecto = :proyecto', { proyecto: params.proyecto })
             .andWhere('nomina.apellido NOT LIKE :apellido', { apellido: '%GARIN ODRIOZOLA%' })
-            .getRawMany()
+            .getRawMany();
 
         return nomina;
     };
