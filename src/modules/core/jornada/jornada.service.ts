@@ -307,6 +307,11 @@ export class JornadaService {
             .innerJoin('j.estadojornada', 'ej')
             .leftJoin('j.ausencia', 'a')
             .leftJoin('tipoausencia', 'ta', 'a.id_tipoausencia = ta.id')
+            .leftJoin('observacion', 'o', 'o.id_jornada = j.id')
+            .groupBy('j.id')
+            .addGroupBy('ej.nombre')
+            .addGroupBy('e.nombre')
+            .addGroupBy('ta.id')
             .where('j.id_importacion = :id_importacion', { id_importacion: params.id_importacion })
             .andWhere('j.id_estadojornada != :id_estadojornada', { id_estadojornada: id_estadojornada });
 
@@ -326,7 +331,8 @@ export class JornadaService {
                 'ej.nombre AS estadojornada',
                 'e.nombre AS nombreempleado',
                 'ta.id AS id_tipoausencia',
-                '(j.id_tipojornada = :id_tipojornada) AS ausencia'
+                '(j.id_tipojornada = :id_tipojornada) AS ausencia',
+                "array_agg(DISTINCT jsonb_build_object('id', o.id, 'texto', o.texto)) FILTER (WHERE o.texto IS NOT NULL) AS observaciones",
             ])
             .setParameter('id_tipojornada', id_tipojornada)
             .orderBy('ej.nombre', 'ASC')
@@ -343,7 +349,8 @@ export class JornadaService {
                 estadojornada: jornada.estadojornada,
                 nombreempleado: jornada.nombreempleado,
                 id_tipoausencia: jornada.id_tipoausencia,
-                ausencia: jornada.ausencia
+                ausencia: jornada.ausencia,
+                observaciones: jornada.observaciones
             })),
             totalJornadas,
         };

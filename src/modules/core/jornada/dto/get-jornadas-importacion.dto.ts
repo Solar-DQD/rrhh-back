@@ -1,5 +1,6 @@
 import { IsNumber, IsPositive, Max, Min } from 'class-validator';
 import { Type } from 'class-transformer';
+import { Observacion } from '../../observacion/entities/observacion.entity';
 
 export type GetJornadasByImportacionDto = {
     page: number;
@@ -30,6 +31,7 @@ export type JornadasImportacionItemDto = {
     nombreempleado: string;
     id_tipoausencia: number;
     ausencia: boolean;
+    observaciones: Observacion[];
 };
 
 export type JornadasImportacionResponseDto = {
