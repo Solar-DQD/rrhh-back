@@ -36,6 +36,7 @@ import { JornadaModule } from './modules/core/jornada/jornada.module';
 import { ImportarModule } from './modules/features/importar/importar.module';
 import { ExcelModule } from './modules/features/excel/excel.module';
 import { ExportarModule } from './modules/features/exportar/exportar.module';
+import { CronModule } from './modules/features/cron/cron.module';
 
 @Module({
   imports: [
@@ -127,8 +128,8 @@ import { ExportarModule } from './modules/features/exportar/exportar.module';
     JornadaModule,
     ImportarModule,
     ExcelModule,
-    ExportarModule
-
+    ExportarModule,
+    CronModule
   ],
   providers: [
     JwtStrategy
