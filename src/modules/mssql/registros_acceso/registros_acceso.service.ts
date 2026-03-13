@@ -15,11 +15,13 @@ export class RegistrosAccesoService {
 
     //Get accesos by fecha (distinct id_empleado)
     async getAccesosByFecha(params: GetAccesosByFechaDto): Promise<AccesosByFechaResponseDto[]> {
+        const fecha = new Date(params.fecha + 'T00:00:00');
+
         const accesos = await this.registrosAccesoRepository
             .createQueryBuilder('registros_acceso')
             .select('CAST(registros_acceso.id_empleado AS BIGINT)', 'dni')
             .distinct(true)
-            .where('registros_acceso.fecha_acceso = :fecha', { fecha: params.fecha })
+            .where('registros_acceso.fecha_acceso = :fecha', { fecha: fecha })
             .getRawMany();
 
         return accesos;
@@ -27,11 +29,13 @@ export class RegistrosAccesoService {
 
     //Get accesos by fecha and proyecto (distinct id_empleado)
     async getAccesosByFechaAndProyecto(params: GetAccesosByFechaAndProyectoDto): Promise<AccesosByFechaAndProyectoResponseDto[]> {
+        const fecha = new Date(params.fecha + 'T00:00:00');
+
         const accesos = await this.registrosAccesoRepository
             .createQueryBuilder('registros_acceso')
             .select('CAST(registros_acceso.id_empleado AS BIGINT)', 'dni')
             .distinct(true)
-            .where('registros_acceso.fecha_acceso = :fecha', { fecha: params.fecha })
+            .where('registros_acceso.fecha_acceso = :fecha', { fecha: fecha })
             .andWhere('registros_acceso.numero_serie_dispositivo IN (:...dispositivos)', { dispositivos: params.dispositivos })
             .getRawMany();
 
@@ -40,6 +44,8 @@ export class RegistrosAccesoService {
 
     //Get accesos by fecha and proyecto
     async getAccesos(params: GetAccesosByFechaAndProyectoDto): Promise<AccesosReturn[]> {
+        const fecha = new Date(params.fecha + 'T00:00:00');
+
         const accesos = await this.registrosAccesoRepository
             .createQueryBuilder('registros_acceso')
             .select([
@@ -49,7 +55,7 @@ export class RegistrosAccesoService {
                 'registros_acceso.fecha_hora_acceso AS fecha_hora_acceso',
                 'CAST(registros_acceso.id_empleado AS BIGINT) AS dni'
             ])
-            .where('registros_acceso.fecha_acceso = :fecha', { fecha: params.fecha })
+            .where('registros_acceso.fecha_acceso = :fecha', { fecha: fecha })
             .andWhere('registros_acceso.numero_serie_dispositivo IN (:...dispositivos)', { dispositivos: params.dispositivos })
             .getRawMany();
 
