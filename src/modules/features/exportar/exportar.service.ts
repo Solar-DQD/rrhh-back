@@ -25,9 +25,7 @@ export class ExportarService {
     ) { }
 
     async exportAsistencia(params: ExportAsistenciaDto): Promise<ExcelAsistenciaResponseDto> {
-        const fecha = params.fecha.split('-').reverse().join('-');
-
-        const asistencia = await this.asistenciaService.getAsistenciaProyecto({ fecha: fecha, id_proyecto: params.id_proyecto });
+        const asistencia = await this.asistenciaService.getAsistenciaProyecto({ fecha: params.fecha, id_proyecto: params.id_proyecto });
 
         const presentes = asistencia.presentes.map(presente => ({
             dni: presente.dni,
