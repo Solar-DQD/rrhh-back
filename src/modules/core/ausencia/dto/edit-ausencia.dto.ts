@@ -1,5 +1,5 @@
 import { Type } from "class-transformer";
-import { IsNumber, IsPositive } from "class-validator";
+import { IsNumber } from "class-validator";
 
 export type EditAusenciaDto = {
     id: number;
@@ -9,6 +9,5 @@ export type EditAusenciaDto = {
 export class EditAusenciaBodyDto {
     @Type(() => Number)
     @IsNumber()
-    
     id_tipoausencia: number;
 };

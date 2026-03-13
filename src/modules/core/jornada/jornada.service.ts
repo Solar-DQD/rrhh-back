@@ -308,10 +308,6 @@ export class JornadaService {
             .leftJoin('j.ausencia', 'a')
             .leftJoin('tipoausencia', 'ta', 'a.id_tipoausencia = ta.id')
             .leftJoin('observacion', 'o', 'o.id_jornada = j.id')
-            .groupBy('j.id')
-            .addGroupBy('ej.nombre')
-            .addGroupBy('e.nombre')
-            .addGroupBy('ta.id')
             .where('j.id_importacion = :id_importacion', { id_importacion: params.id_importacion })
             .andWhere('j.id_estadojornada != :id_estadojornada', { id_estadojornada: id_estadojornada });
 
@@ -319,10 +315,14 @@ export class JornadaService {
             .clone()
             .select('COUNT(DISTINCT j.id)', 'total')
             .getRawOne()
-            .then(r => parseInt(r.total, 10));
+            .then(r => parseInt(r?.total ?? '0', 10));
 
         const jornadas = await baseQuery
             .clone()
+            .groupBy('j.id')
+            .addGroupBy('ej.nombre')
+            .addGroupBy('e.nombre')
+            .addGroupBy('ta.id')
             .select([
                 'j.id AS id',
                 'j.fecha AS fecha',
