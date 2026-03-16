@@ -86,8 +86,8 @@ export class ExcelService {
             const hours = cellValue.getHours();
             const minutes = cellValue.getMinutes();
 
-            let correctedHours = hours + 4;
-            let correctedMinutes = minutes + 17;
+            let correctedHours = hours;
+            let correctedMinutes = minutes;
 
             if (correctedMinutes >= 60) {
                 correctedMinutes -= 60;
