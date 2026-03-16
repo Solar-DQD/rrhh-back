@@ -488,12 +488,13 @@ export class ImportarService {
                     if (jornada.entrada || jornada.salida) {
                         if (params.id_tipoimportacion === id_tipoimportacionprosoft) {
                             const id_ausencia = await this.jornadaService.getJornadaAusenciaByEmpleado({ id_empleado, fecha });
-
-                            await this.ausenciaService.deleteAusencia({ id: id_ausencia });
+                            if (id_ausencia) {
+                                await this.ausenciaService.deleteAusencia({ id: id_ausencia });
+                            };
                         };
 
                         let id_estadojornada;
-                        
+
                         if (!empleadoAccesos.validacionManual) {
                             id_estadojornada = id_estadojornadavalida;
                         } else if (empleadoAccesos.incompleto) {

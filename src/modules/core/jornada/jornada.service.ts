@@ -371,7 +371,7 @@ export class JornadaService {
     };
 
     //Get jornada id_ausencia by empleado, fecha
-    async getJornadaAusenciaByEmpleado(params: GetJornadaAusenciaByEmpleadoDto): Promise<number> {
+    async getJornadaAusenciaByEmpleado(params: GetJornadaAusenciaByEmpleadoDto): Promise<number | null> {
         const id_tipojornada = await this.tipoJornadaService.getTipoJornadaAusencia();
 
         const jornada = await this.jornadaRepository.findOne({
@@ -380,7 +380,7 @@ export class JornadaService {
         });
 
         if (!jornada) {
-            throw new NotFoundException(`Jornada not found`);
+            return null;
         };
 
         return jornada.id_ausencia;
