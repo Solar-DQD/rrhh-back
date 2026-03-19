@@ -264,7 +264,7 @@ export class ImportarService {
             id_tipoimportacion: id_tipoimportacion,
             id_proyecto: params.id_proyecto,
             id_tipojornada: params.id_tipojornada,
-            nombre: params.file.filename,
+            nombre: params.file.originalname.slice(0, -5),
             id_usuariocreacion: params.id_usuariocreacion
         });
 
