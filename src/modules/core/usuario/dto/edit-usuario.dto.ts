@@ -6,6 +6,7 @@ export type EditUsuarioDto = {
     nombre: string;
     email: string;
     id_tipousuario: number;
+    id_proyecto: number;
 };
 
 export class EditUsuarioBodyDto {
@@ -21,6 +22,9 @@ export class EditUsuarioBodyDto {
 
     @Type(() => Number)
     @IsNumber()
-    
     id_tipousuario: number;
+
+    @Type(() => Number)
+    @IsNumber()
+    id_proyecto: number;
 };

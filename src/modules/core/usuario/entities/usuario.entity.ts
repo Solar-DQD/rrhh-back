@@ -1,6 +1,7 @@
 import { EstadoUsuario } from "src/modules/core/estadousuario/entities/estadousuario.entity";
 import { TipoUsuario } from "src/modules/core/tipousuario/entities/tipousuario.entity";
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Proyecto } from "../../proyecto/entities/proyecto.entity";
 
 @Entity('usuario')
 export class Usuario {
@@ -22,6 +23,9 @@ export class Usuario {
     @Column()
     id_tipousuario: number;
 
+    @Column()
+    id_proyecto: number;
+
     @ManyToOne(() => TipoUsuario)
     @JoinColumn({ name: 'id_tipousuario' })
     tipousuario: TipoUsuario;
@@ -29,4 +33,8 @@ export class Usuario {
     @ManyToOne(() => EstadoUsuario)
     @JoinColumn({ name: 'id_estadousuario' })
     estadousuario: EstadoUsuario;
+
+    @ManyToOne(() => Proyecto)
+    @JoinColumn({ name: 'id_proyecto' })
+    proyecto: Proyecto;
 };

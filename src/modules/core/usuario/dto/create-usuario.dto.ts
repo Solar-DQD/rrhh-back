@@ -19,6 +19,9 @@ export class CreateUsuarioDto {
 
     @Type(() => Number)
     @IsNumber()
-    
     id_tipousuario: number;
+
+    @Type(() => Number)
+    @IsNumber()
+    id_proyecto: number;
 };
