@@ -61,9 +61,9 @@ import { CronModule } from './modules/features/cron/cron.module';
         entities: [__dirname + '/modules/core/**/*.entity{.ts,.js}'],
         synchronize: false,
         logging: false,
-+        ssl: {
-+          rejectUnauthorized: false
-+        }
+        ssl: {
+          rejectUnauthorized: false
+        }
       })
     }),
     TypeOrmModule.forRootAsync({
