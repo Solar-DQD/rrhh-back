@@ -9,6 +9,7 @@ import { DeactivateUsuarioDto } from './dto/deactivate-usuario.dto';
 import { EditUsuarioDto } from './dto/edit-usuario.dto';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
 import bcrypt from "bcrypt";
+import { GetUsuarioProyectoDto } from './dto/get-usuario-proyecto.dto';
 
 @Injectable()
 export class UsuarioService {
@@ -19,7 +20,7 @@ export class UsuarioService {
     ) { }
 
     //Get usuario by correo
-    async getUsuarioByEmail(params: GetUsuarioByEmailDto) {
+    async getUsuarioByEmail(params: GetUsuarioByEmailDto): Promise<Usuario> {
         const id_estadousuario = await this.estadoUsuarioService.getEstadoUsuarioBaja();
 
         const usuario = await this.usuarioRepository.findOne({
@@ -32,7 +33,7 @@ export class UsuarioService {
         if (!usuario) {
             throw new NotFoundException(`Usuario with email ${params.email} not found`)
         };
-
+        
         return usuario;
     };
 
@@ -42,12 +43,12 @@ export class UsuarioService {
 
         const query = this.usuarioRepository
             .createQueryBuilder('u')
-            .select(['u.id', 'u.nombre', 'u.email', 'u.id_tipousuario', 'tu.nombre', 'eu.nombre'])
+            .select(['u.id', 'u.nombre', 'u.email', 'u.id_tipousuario', /**'u.id_proyecto',**/ 'tu.nombre', 'eu.nombre'])
             .innerJoin('u.tipousuario', 'tu')
             .innerJoin('u.estadousuario', 'eu')
             .take(params.limit)
             .skip(params.page * params.limit)
-            .orderBy(params.column, upperCaseDirection);
+            .orderBy(`u.${params.column}`, upperCaseDirection);
 
         if (params.id_tipousuario !== undefined) {
             query.andWhere('u.id_tipousuario = :id_tipousuario', { id_tipousuario: params.id_tipousuario })
@@ -65,12 +66,28 @@ export class UsuarioService {
                 nombre: usuario.nombre,
                 email: usuario.email,
                 id_tipousuario: usuario.id_tipousuario,
+                //id_proyecto: usuario.id_proyecto,
                 tipousuario: usuario.tipousuario?.nombre,
                 estadousuario: usuario.estadousuario?.nombre
             })),
             totalUsuarios
         };
     };
+
+    //Get usuario proyecto
+    /**async getUsuarioProyecto(params: GetUsuarioProyectoDto): Promise<number> {
+        const usuario = await this.usuarioRepository.findOne({
+            where: {
+                id: params.id
+            }
+        });
+
+        if (!usuario) {
+            throw new NotFoundException(`Usuario with id ${params.id} not found`)
+        };
+        
+        return usuario.id_proyecto;
+    };**/
 
     //Deactivate usuario
     async deactivateUsuario(params: DeactivateUsuarioDto): Promise<void> {
@@ -117,7 +134,8 @@ export class UsuarioService {
             {
                 nombre: params.nombre,
                 email: params.email,
-                id_tipousuario: params.id_tipousuario
+                id_tipousuario: params.id_tipousuario,
+                //id_proyecto: params.id_proyecto
             }
         );
 
@@ -133,7 +151,7 @@ export class UsuarioService {
 
         const id_estadousuario = await this.estadoUsuarioService.getEstadoUsuarioActivo();
 
-        let usuario = this.usuarioRepository.create({ email: params.email, nombre: params.nombre, contraseña: hash, id_tipousuario: params.id_tipousuario, id_estadousuario: id_estadousuario });
+        let usuario = this.usuarioRepository.create({ email: params.email, nombre: params.nombre, contraseña: hash, id_tipousuario: params.id_tipousuario, id_estadousuario: id_estadousuario, /**id_proyecto: params.id_proyecto**/ });
         usuario = await this.usuarioRepository.save(usuario);
 
         return usuario.id;

@@ -4,14 +4,10 @@ import { Type } from 'class-transformer';
 export class GetUsuariosDto {
     @Type(() => Number)
     @IsNumber()
-    @Min(0)
     page: number;
 
     @Type(() => Number)
     @IsNumber()
-    
-    @Min(1)
-    @Max(100)
     limit: number;
 
     @IsString()
@@ -20,12 +16,10 @@ export class GetUsuariosDto {
 
     @IsString()
     @IsNotEmpty()
-    @MinLength(3)
-    @MaxLength(4)
     direction: string;
 
     @IsString()
-    @IsNotEmpty()
+    @IsOptional()
     nombre: string;
 
     @Type(() => Number)
@@ -39,6 +33,7 @@ export type UsuarioItemDto = {
     nombre: string;
     email: string;
     id_tipousuario: number;
+    //id_proyecto: number;
     tipousuario: string;
     estadousuario: string;
 };
