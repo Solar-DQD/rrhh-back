@@ -43,7 +43,7 @@ export class UsuarioService {
 
         const query = this.usuarioRepository
             .createQueryBuilder('u')
-            .select(['u.id', 'u.nombre', 'u.email', 'u.id_tipousuario', 'u.id_proyecto', 'tu.nombre', 'eu.nombre'])
+            .select(['u.id', 'u.nombre', 'u.email', 'u.id_tipousuario', /**'u.id_proyecto',**/ 'tu.nombre', 'eu.nombre'])
             .innerJoin('u.tipousuario', 'tu')
             .innerJoin('u.estadousuario', 'eu')
             .take(params.limit)
@@ -66,7 +66,7 @@ export class UsuarioService {
                 nombre: usuario.nombre,
                 email: usuario.email,
                 id_tipousuario: usuario.id_tipousuario,
-                id_proyecto: usuario.id_proyecto,
+                //id_proyecto: usuario.id_proyecto,
                 tipousuario: usuario.tipousuario?.nombre,
                 estadousuario: usuario.estadousuario?.nombre
             })),
@@ -75,7 +75,7 @@ export class UsuarioService {
     };
 
     //Get usuario proyecto
-    async getUsuarioProyecto(params: GetUsuarioProyectoDto): Promise<number> {
+    /**async getUsuarioProyecto(params: GetUsuarioProyectoDto): Promise<number> {
         const usuario = await this.usuarioRepository.findOne({
             where: {
                 id: params.id
@@ -87,7 +87,7 @@ export class UsuarioService {
         };
         
         return usuario.id_proyecto;
-    };
+    };**/
 
     //Deactivate usuario
     async deactivateUsuario(params: DeactivateUsuarioDto): Promise<void> {
@@ -135,7 +135,7 @@ export class UsuarioService {
                 nombre: params.nombre,
                 email: params.email,
                 id_tipousuario: params.id_tipousuario,
-                id_proyecto: params.id_proyecto
+                //id_proyecto: params.id_proyecto
             }
         );
 
@@ -151,7 +151,7 @@ export class UsuarioService {
 
         const id_estadousuario = await this.estadoUsuarioService.getEstadoUsuarioActivo();
 
-        let usuario = this.usuarioRepository.create({ email: params.email, nombre: params.nombre, contraseña: hash, id_tipousuario: params.id_tipousuario, id_estadousuario: id_estadousuario, id_proyecto: params.id_proyecto });
+        let usuario = this.usuarioRepository.create({ email: params.email, nombre: params.nombre, contraseña: hash, id_tipousuario: params.id_tipousuario, id_estadousuario: id_estadousuario, /**id_proyecto: params.id_proyecto**/ });
         usuario = await this.usuarioRepository.save(usuario);
 
         return usuario.id;

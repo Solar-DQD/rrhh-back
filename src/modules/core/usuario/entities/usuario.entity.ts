@@ -23,8 +23,8 @@ export class Usuario {
     @Column()
     id_tipousuario: number;
 
-    @Column()
-    id_proyecto: number;
+    //@Column()
+    //id_proyecto: number;
 
     @ManyToOne(() => TipoUsuario)
     @JoinColumn({ name: 'id_tipousuario' })
@@ -34,7 +34,7 @@ export class Usuario {
     @JoinColumn({ name: 'id_estadousuario' })
     estadousuario: EstadoUsuario;
 
-    @ManyToOne(() => Proyecto)
-    @JoinColumn({ name: 'id_proyecto' })
-    proyecto: Proyecto;
+    //@ManyToOne(() => Proyecto)
+    //@JoinColumn({ name: 'id_proyecto' })
+    //proyecto: Proyecto;
 };

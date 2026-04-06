@@ -33,7 +33,7 @@ export type UsuarioItemDto = {
     nombre: string;
     email: string;
     id_tipousuario: number;
-    id_proyecto: number;
+    //id_proyecto: number;
     tipousuario: string;
     estadousuario: string;
 };
