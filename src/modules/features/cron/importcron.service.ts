@@ -13,7 +13,7 @@ export interface ImportResult {
 export class ImportCronService {
     private readonly logger = new Logger(ImportCronService.name);
 
-    private readonly PROYECTOS = [1, 2, 3, 6, 9, 10, 11, 12, 17, 15, 18, 19];
+    private readonly PROYECTOS = [1, 2, 3, 6, 9, 10, 11, 12, 17, 15, 18, 19, 20];
 
     private readonly SYSTEM_USER_ID = 9;
 
