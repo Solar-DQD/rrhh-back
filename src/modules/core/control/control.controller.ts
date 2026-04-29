@@ -18,7 +18,7 @@ export class ControlController {
   @Post()
   @HttpCode(HttpStatus.CREATED)
   async createControl(@Body() body: CreateControlDto) {
-    await this.createControl(body);
+    await this.controlService.createControl(body);
     return { message: 'Control created' };
   };
 
